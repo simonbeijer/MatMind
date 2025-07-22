@@ -1,0 +1,32 @@
+services:
+  nextjs:
+    container_name: matmind
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - DATABASE_URL=postgresql://simon:S1m0n@postgres:5432/matminddb
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    depends_on:
+      - postgres
+    command: ["npm", "run", "dev"]
+
+  postgres:
+    image: postgres:15
+    container_name: matmind_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: simon
+      POSTGRES_PASSWORD: S1m0n
+      POSTGRES_DB: matminddb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
