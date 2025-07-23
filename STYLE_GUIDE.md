@@ -143,3 +143,33 @@ export default function MyPage() {
 
 ### The Goal:
 Every page should look identical to your onboarding flow and automatically adapt to light/dark browser preferences without any manual theme switching.
+
+---
+
+## 🔧 Common Issues & Troubleshooting
+
+### White Input Background Issue
+
+**Problem:** Form inputs appear white when typing.
+
+**Cause:** Using `bg-onboarding-card-bg` (transparent background) can cause visibility issues with input text.
+
+**Solution:** Use solid backgrounds for input fields:
+
+```js
+// ❌ Problematic - transparent background
+className="bg-onboarding-card-bg text-onboarding-text-primary"
+
+// ✅ Fixed - solid background  
+className="bg-onboarding-bg-secondary text-onboarding-text-primary"
+```
+
+**Complete Fixed Input Styling:**
+```js
+className="w-full px-4 py-3 border rounded-lg bg-onboarding-bg-secondary text-onboarding-text-primary placeholder:text-onboarding-text-subtle transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-onboarding-accent-end border-onboarding-border-input"
+```
+
+### Other Form Issues
+- Always test inputs in both light and dark modes
+- Ensure sufficient contrast between background and text colors
+- Use solid backgrounds for interactive elements like inputs and buttons
