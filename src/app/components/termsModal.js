@@ -13,7 +13,7 @@ export default function TermsModal({ isOpen, onClose, showClose = true }) {
 
   const handleAcceptTerms = () => {
     if (termsAccepted && gdprAccepted) {
-      localStorage.setItem('personal-letter-llm-terms-accepted', new Date().toISOString());
+      localStorage.setItem('matmind-terms-accepted', new Date().toISOString());
       onClose();
     }
   };
@@ -25,13 +25,13 @@ export default function TermsModal({ isOpen, onClose, showClose = true }) {
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-onboarding-text-primary mb-4">Terms of Use & Privacy Notice</h2>
           
-          <div className="mb-4 bg-onboarding-card-bg border border-onboarding-border-subtle rounded-lg p-4">
+          <div className="mb-4 bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 rounded-lg p-4 shadow-sm">
             <div className="flex items-start space-x-3">
-              <ExclamationTriangleIcon className="h-5 w-5 text-onboarding-text-muted mt-1 flex-shrink-0" />
+              <ExclamationTriangleIcon className="h-5 w-5 text-red-500 mt-1 flex-shrink-0" />
               <div className="text-sm text-left pt-1">
-                <p className="font-semibold text-onboarding-text-primary mb-2">Important Disclaimer</p>
-                <p className="text-onboarding-text-muted">
-                  This application uses AI technology to generate cover letters. Use at your own risk. 
+                <p className="font-semibold text-red-800 mb-2">Important Disclaimer</p>
+                <p className="text-red-700">
+                  This application uses AI technology to generate training plans. Use at your own risk. 
                   We bear no responsibility for the content generated, job application outcomes, or any consequences 
                   arising from the use of this service. Always review and customize generated content before use.
                 </p>
@@ -39,12 +39,12 @@ export default function TermsModal({ isOpen, onClose, showClose = true }) {
             </div>
           </div>
 
-          <div className="mb-6 bg-onboarding-bg-secondary border border-onboarding-border-subtle rounded-lg p-4">
+          <div className="mb-6 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-4 shadow-sm">
             <div className="flex items-start space-x-3">
-              <InformationCircleIcon className="h-5 w-5 text-onboarding-text-muted mt-1 flex-shrink-0" />
+              <InformationCircleIcon className="h-5 w-5 text-blue-500 mt-1 flex-shrink-0" />
               <div className="text-sm text-left pt-1">
-                <p className="font-semibold text-onboarding-text-primary mb-2">AI Technology Notice</p>
-                <p className="text-onboarding-text-muted">
+                <p className="font-semibold text-blue-800 mb-2">AI Technology Notice</p>
+                <p className="text-blue-700">
                   This service is powered by Google&apos;s Gemini AI. Your uploaded documents and generated content 
                   may be processed by Google&apos;s systems according to their privacy policies. 
                   Please avoid uploading sensitive personal information.
@@ -78,7 +78,7 @@ export default function TermsModal({ isOpen, onClose, showClose = true }) {
             />
             <span className="text-sm text-onboarding-text-primary">
               I consent to the processing of my data as described above and understand that my documents 
-              will be processed by AI systems for the purpose of generating cover letters.
+              will be processed by AI systems for the purpose of generating training plans.
             </span>
           </label>
         </div>

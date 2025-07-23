@@ -53,9 +53,13 @@ export default function Header({
     <header className="border-b border-onboarding-border-subtle bg-onboarding-bg-primary/80 backdrop-blur-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-gradient-to-r from-onboarding-accent-end to-onboarding-accent-start rounded-lg flex items-center justify-center">
-            <span className="text-onboarding-bg-primary font-bold text-sm">MM</span>
-          </div>
+          <Image
+            src="/mat-mind-icon.png"
+            alt="MatMind Logo"
+            width={52}
+            height={52}
+            className="w-[52px] h-[52px] rounded-lg mr-4"
+          />
           <span className="text-onboarding-text-primary font-bold text-xl">
             MatMind
           </span>

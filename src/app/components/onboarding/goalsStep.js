@@ -5,114 +5,70 @@ import { Label } from "../ui/label"
 import { Select, SelectItem } from "../ui/select"
 import { Checkbox } from "../ui/checkbox"
 import { Slider } from "../ui/slider"
+import { ChevronDown } from "lucide-react"
 
 export function GoalsStep({ profile, updateProfile }) {
-  const specificGoals = [
-    {
-      id: "win-competition",
-      title: "Win more in competition",
-      tags: ["✅ Standing + Ground", "✅ Offense + Defense"],
-      category: "Competition",
-      emoji: "🏆"
+  const [expandedCategories, setExpandedCategories] = useState({})
+  
+  const goalCategories = {
+    "Mental & Emotional Goals": {
+      emoji: "🧠",
+      goals: [
+        { id: "mental-toughness", title: "Build mental toughness and confidence" },
+        { id: "competition-mindset", title: "Develop a strong competition mindset" }
+      ]
     },
-    {
-      id: "mental-toughness",
-      title: "Build mental toughness and confidence",
-      tags: ["🧠 Mental"],
-      category: "Mental",
-      emoji: "🧠"
+    "Physical & Conditioning Goals": {
+      emoji: "💪",
+      goals: [
+        { id: "cardio-conditioning", title: "Improve cardio and conditioning" },
+        { id: "injury-prevention", title: "Prevent or recover from injuries" }
+      ]
     },
-    {
-      id: "cardio-conditioning",
-      title: "Improve cardio and conditioning",
-      tags: ["🏃‍♂️ Physical"],
-      category: "Physical",
-      emoji: "🏃‍♂️"
+    "Technical & Tactical Development": {
+      emoji: "🧩",
+      goals: [
+        { id: "overall-technique", title: "Improve overall technique and positional skills" },
+        { id: "offensive-skills", title: "Develop offensive skills (submissions, attacks, pressure)" },
+        { id: "defensive-skills", title: "Enhance defensive skills (escapes, sub defense)" },
+        { id: "advanced-techniques", title: "Learn advanced or higher-level techniques" },
+        { id: "flow-timing", title: "Develop flow, timing, and movement efficiency" }
+      ]
     },
-    {
-      id: "overall-technique",
-      title: "Improve overall technique and positional skills",
-      tags: ["✅ Offense + Defense", "✅ Standing + Ground"],
-      category: "Technical",
-      emoji: "⚙️"
+    "Competition & Performance Goals": {
+      emoji: "⚔️",
+      goals: [
+        { id: "win-competition", title: "Win more in competition" },
+        { id: "training-plateaus", title: "Break through training plateaus" }
+      ]
     },
-    {
-      id: "defensive-skills",
-      title: "Enhance defensive skills (escapes, sub defense)",
-      tags: ["✅ Defense", "✅ Ground"],
-      category: "Technical",
-      emoji: "🛡️"
-    },
-    {
-      id: "flow-timing",
-      title: "Develop flow, timing, and movement efficiency",
-      tags: ["⚙️ Movement", "⚙️ Neutral"],
-      category: "Movement",
-      emoji: "⚡"
-    },
-    {
-      id: "advanced-techniques",
-      title: "Learn advanced or higher-level techniques",
-      tags: ["🧠 Offense + Defense"],
-      category: "Technical",
-      emoji: "🎓"
-    },
-    {
-      id: "training-plateaus",
-      title: "Break through training plateaus",
-      tags: ["🎯 General"],
-      category: "General",
-      emoji: "🎯"
-    },
-    {
-      id: "injury-prevention",
-      title: "Prevent or recover from injuries",
-      tags: ["🛡️ Physical"],
-      category: "Physical",
-      emoji: "🩹"
-    },
-    {
-      id: "training-consistency",
-      title: "Train more consistently and stay motivated",
-      tags: ["🔁 Lifestyle"],
-      category: "Lifestyle",
-      emoji: "🔁"
-    },
-    {
-      id: "life-balance",
-      title: "Balance BJJ with life, work, or stress",
-      tags: ["⚖️ Lifestyle"],
-      category: "Lifestyle",
-      emoji: "⚖️"
-    },
-    {
-      id: "competition-mindset",
-      title: "Develop a strong competition mindset",
-      tags: ["🧠 Mental"],
-      category: "Mental",
-      emoji: "🎯"
+    "Lifestyle & Balance Goals": {
+      emoji: "⏳",
+      goals: [
+        { id: "training-consistency", title: "Train more consistently and stay motivated" },
+        { id: "life-balance", title: "Balance BJJ with life, work, or stress" }
+      ]
     }
-  ]
+  }
 
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  
-  const categories = ["all", ...new Set(specificGoals.map(goal => goal.category))]
-  
-  const filteredGoals = selectedCategory === "all" 
-    ? specificGoals 
-    : specificGoals.filter(goal => goal.category === selectedCategory)
-
-  const handleGoalChange = (goal, checked) => {
+  const handleGoalChange = (goalId, checked) => {
     if (checked && profile.specificGoals.length >= 8) {
       // Prevent selecting more than 8 goals
       return;
     }
 
     const updatedGoals = checked 
-      ? [...profile.specificGoals, goal.id] 
-      : profile.specificGoals.filter((g) => g !== goal.id)
+      ? [...profile.specificGoals, goalId] 
+      : profile.specificGoals.filter((g) => g !== goalId)
 
     updateProfile({ specificGoals: updatedGoals })
+  }
+
+  const toggleCategory = (categoryName) => {
+    setExpandedCategories(prev => ({
+      ...prev,
+      [categoryName]: !prev[categoryName]
+    }))
   }
 
   return (
@@ -197,56 +153,48 @@ export function GoalsStep({ profile, updateProfile }) {
             {profile.specificGoals.length}/8 selected
           </div>
         </div>
-        
-        <div className="space-y-2">
-          <Label className="text-sm text-onboarding-text-muted">Filter by Category</Label>
-          <Select 
-            value={selectedCategory} 
-            onValueChange={setSelectedCategory}
-          >
-            {categories.map(category => (
-              <SelectItem key={category} value={category}>
-                {category === "all" ? "All Categories" : category}
-              </SelectItem>
-            ))}
-          </Select>
-        </div>
         {profile.specificGoals.length >= 8 && (
           <div className="text-xs text-amber-600 bg-amber-50 p-2 rounded">
             You&apos;ve selected the maximum number of goals (8). Unselect one to choose a different goal.
           </div>
         )}
-        <div className="grid grid-cols-1 gap-3 max-h-80 overflow-y-auto">
-          {filteredGoals.map((goal) => (
-            <div key={goal.id} className="flex items-start space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-              <Checkbox
-                id={goal.id}
-                checked={profile.specificGoals.includes(goal.id)}
-                onCheckedChange={(checked) => handleGoalChange(goal, checked)}
-                className="mt-1"
-              />
-              <div className="flex-1 space-y-2">
-                <Label
-                  htmlFor={goal.id}
-                  className="text-sm font-medium text-onboarding-text-primary cursor-pointer flex items-center gap-2"
-                >
-                  <span>{goal.emoji}</span>
-                  {goal.title}
-                </Label>
-                <div className="flex flex-wrap gap-1">
-                  {goal.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800 border"
-                    >
-                      {tag}
-                    </span>
+        <div className="space-y-6">
+          {Object.entries(goalCategories).map(([categoryName, categoryData]) => (
+            <div key={categoryName} className="space-y-3">
+              <button
+                type="button"
+                onClick={() => toggleCategory(categoryName)}
+                className="flex items-center gap-2 text-base font-medium text-onboarding-text-primary hover:text-onboarding-text-primary hover:bg-onboarding-hover-bg px-2 py-1 rounded-md transition-all duration-200 w-full justify-start"
+              >
+                <span className="text-lg">{categoryData.emoji}</span>
+                <span>{categoryName}</span>
+                <ChevronDown 
+                  className={`h-4 w-4 ml-auto transition-transform duration-200 ${
+                    expandedCategories[categoryName] ? 'rotate-180' : ''
+                  }`} 
+                />
+              </button>
+              
+              {expandedCategories[categoryName] && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 ml-8 animate-in slide-in-from-top-1 duration-200">
+                  {categoryData.goals.map((goal) => (
+                    <div key={goal.id} className="flex items-start space-x-2">
+                      <Checkbox
+                        id={goal.id}
+                        checked={profile.specificGoals.includes(goal.id)}
+                        onCheckedChange={(checked) => handleGoalChange(goal.id, checked)}
+                        className="mt-0.5"
+                      />
+                      <Label
+                        htmlFor={goal.id}
+                        className="text-sm text-onboarding-text-muted cursor-pointer leading-relaxed"
+                      >
+                        {goal.title}
+                      </Label>
+                    </div>
                   ))}
                 </div>
-                <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                  {goal.category}
-                </div>
-              </div>
+              )}
             </div>
           ))}
         </div>
