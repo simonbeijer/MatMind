@@ -366,7 +366,7 @@ export function ProfileStep({ profile, updateProfile }) {
         </div>
         {profile.currentChallenges.length >= 8 && (
           <div className="text-xs text-amber-600 bg-amber-50 p-2 rounded">
-            You've selected the maximum number of challenges (8). Unselect one to choose a different challenge.
+            You&apos;ve selected the maximum number of challenges (8). Unselect one to choose a different challenge.
           </div>
         )}
         <div className="space-y-6">

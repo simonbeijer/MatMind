@@ -45,7 +45,7 @@ export function FocusStep({ profile, updateProfile }) {
         </p>
         {profile.focusAreas.length >= 5 && (
           <div className="text-xs text-amber-600 bg-amber-50 p-2 rounded">
-            You've selected the maximum number of focus areas (5). Unselect one to choose a different area.
+            You&apos;ve selected the maximum number of focus areas (5). Unselect one to choose a different area.
           </div>
         )}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">

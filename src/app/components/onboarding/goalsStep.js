@@ -86,7 +86,7 @@ export function GoalsStep({ profile, updateProfile }) {
         </div>
         {profile.specificGoals.length >= 8 && (
           <div className="text-xs text-amber-600 bg-amber-50 p-2 rounded">
-            You've selected the maximum number of goals (8). Unselect one to choose a different goal.
+            You&apos;ve selected the maximum number of goals (8). Unselect one to choose a different goal.
           </div>
         )}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-64 overflow-y-auto">
