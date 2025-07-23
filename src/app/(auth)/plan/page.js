@@ -21,12 +21,14 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { generateTrainingPlan } from "@/app/lib/ai-service"
+import BetaNoticeModal from "@/app/components/betaNoticeModal"
 
 export default function PlanPage() {
   const [profile, setProfile] = useState(null)
   const [plan, setPlan] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [showBetaNotice, setShowBetaNotice] = useState(false)
 
   useEffect(() => {
     const loadProfileAndGeneratePlan = async () => {
@@ -44,6 +46,7 @@ export default function PlanPage() {
         // Generate the training plan using AI
         const generatedPlan = await generateTrainingPlan(userProfile)
         setPlan(generatedPlan)
+        setShowBetaNotice(true)
       } catch (err) {
         console.error("Error generating plan:", err)
         setError("Failed to generate your training plan. Please try again.")
@@ -64,12 +67,17 @@ export default function PlanPage() {
     try {
       const newPlan = await generateTrainingPlan(profile)
       setPlan(newPlan)
+      setShowBetaNotice(true)
     } catch (err) {
       console.error("Error regenerating plan:", err)
       setError("Failed to regenerate your training plan. Please try again.")
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const closeBetaNotice = () => {
+    setShowBetaNotice(false)
   }
 
   if (isLoading) {
@@ -110,6 +118,7 @@ export default function PlanPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-onboarding-bg-primary via-onboarding-bg-secondary to-onboarding-bg-primary">
+      <BetaNoticeModal isOpen={showBetaNotice} onClose={closeBetaNotice} />
       <div className="container mx-auto px-4 py-8">
         {/* Profile Summary */}
         <Card className="bg-onboarding-card-bg border-onboarding-border-subtle backdrop-blur-sm mb-8 shadow-2xl">
