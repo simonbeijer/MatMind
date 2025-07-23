@@ -3,9 +3,14 @@ import { useRouter, usePathname } from "next/navigation";
 import { useUserContext } from "../context/userContext";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import Dropdown from "./dropdown";
 
-export default function Header() {
+export default function Header({ 
+  showAuth = true, 
+  showNavigation = true, 
+  isHomepage = false 
+}) {
   const { user, setUser } = useUserContext();
   const router = useRouter();
   const pathname = usePathname();
@@ -57,19 +62,30 @@ export default function Header() {
         </Link>
         
         <div className="flex items-center space-x-4">
+          {showNavigation && (
+            <nav className="flex items-center gap-4">
+              <Link href="/dashboard" className="text-onboarding-text-primary hover:text-onboarding-accent-end font-medium transition-colors">
+                Dashboard
+              </Link>
+              <Link href="/onboarding" className="text-onboarding-text-primary hover:text-onboarding-accent-end font-medium transition-colors">
+                Onboard
+              </Link>
+            </nav>
+          )}
           
-          <nav className="flex items-center gap-4">
-            <Link href="/dashboard" className="text-onboarding-text-primary hover:text-onboarding-accent-end font-medium transition-colors">
-              Dashboard
-            </Link>
-            <Link href="/onboarding" className="text-onboarding-text-primary hover:text-onboarding-accent-end font-medium transition-colors">
-              Onboard
-            </Link>
-          </nav>
+          {showAuth && user && (
+            <div>
+              <Dropdown logoutUser={logoutUser} user={user} />
+            </div>
+          )}
           
-          <div>
-            <Dropdown logoutUser={logoutUser} user={user} />
-          </div>
+          {isHomepage && (
+            <Link href="/login">
+              <button className="bg-gradient-to-r from-onboarding-accent-start to-onboarding-accent-end hover:from-onboarding-accent-start/80 hover:to-onboarding-accent-end/80 text-onboarding-bg-primary px-4 py-2 rounded-md transition-colors">
+                Get Started
+              </button>
+            </Link>
+          )}
         </div>
       </div>
     </header>

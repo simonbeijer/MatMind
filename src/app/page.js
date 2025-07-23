@@ -1,29 +1,13 @@
 import Link from "next/link";
 import { ArrowRight, Trophy, User, Heart, Users, Brain, Dumbbell } from "lucide-react";
+import Header from "./components/header";
+import { UserProvider } from "./context/userContext";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-onboarding-bg-primary via-onboarding-bg-secondary to-onboarding-bg-primary">
-      {/* Header */}
-      <header className="border-b border-onboarding-border-subtle bg-onboarding-bg-primary/80 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-onboarding-accent-end to-onboarding-accent-start rounded-lg flex items-center justify-center">
-              <span className="text-onboarding-bg-primary font-bold text-sm">MM</span>
-            </div>
-            <span className="text-onboarding-text-primary font-bold text-xl">
-              MatMind
-            </span>
-          </div>
-          <div className="flex items-center space-x-4">
-            <Link href="/login">
-              <button className="bg-gradient-to-r from-onboarding-accent-start to-onboarding-accent-end hover:from-onboarding-accent-start/80 hover:to-onboarding-accent-end/80 text-onboarding-bg-primary px-4 py-2 rounded-md transition-colors">
-                Get Started
-              </button>
-            </Link>
-          </div>
-        </div>
-      </header>
+    <UserProvider>
+      <div className="min-h-screen bg-gradient-to-br from-onboarding-bg-primary via-onboarding-bg-secondary to-onboarding-bg-primary">
+        <Header showAuth={false} showNavigation={false} isHomepage={true} />
 
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 text-center">
@@ -135,8 +119,7 @@ export default function Home() {
         </div>
       </section>
 
-
-
-    </div>
+      </div>
+    </UserProvider>
   );
 }

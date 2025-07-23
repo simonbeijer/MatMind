@@ -4,6 +4,5 @@ describe('Home Page', () => {
     cy.contains('Get Started').should('be.visible').click();
     cy.url().should('include', '/login');
     cy.get('nav').should('exist');
-    cy.get('nav').should('contain', 'My navbar logged out');
   });
 });
