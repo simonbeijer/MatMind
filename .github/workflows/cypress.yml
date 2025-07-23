@@ -65,4 +65,4 @@ jobs:
           done
 
       - name: Run Cypress tests
-        run: npm run test:e2e
+        run: npm run test:cypress
