@@ -29,6 +29,8 @@ const initialProfile = {
   primaryGoal: "",
   specificGoals: [],
   timeframe: "",
+  improvementFocus: "",
+  areaFocus: "",
   motivationLevel: 5,
   effortCapacity: 5,
 
