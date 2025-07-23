@@ -5,6 +5,7 @@ logs
 .logs/*
 
 .claude/
+CLAUDE.md
 
 # dependencies
 /node_modules
