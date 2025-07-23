@@ -10,7 +10,7 @@ export default function Dashboard() {
   const { user } = useUserContext();
 
   useEffect(() => {
-    const termsAccepted = localStorage.getItem('personal-letter-llm-terms-accepted');
+    const termsAccepted = localStorage.getItem('matmind-terms-accepted');
     if (!termsAccepted) {
       setShowTermsModal(true);
     }
