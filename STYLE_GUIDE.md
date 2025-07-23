@@ -150,12 +150,15 @@ Every page should look identical to your onboarding flow and automatically adapt
 
 ### White Input Background Issue
 
-**Problem:** Form inputs appear white when typing.
+**Problem:** Form inputs appear white when typing, especially with email/password fields.
 
-**Cause:** Using `bg-onboarding-card-bg` (transparent background) can cause visibility issues with input text.
+**Causes:** 
+1. Using `bg-onboarding-card-bg` (transparent background) can cause visibility issues with input text.
+2. Browser autofill overrides custom styling with its own white background.
 
-**Solution:** Use solid backgrounds for input fields:
+**Solutions:** 
 
+**For transparent background issues:**
 ```js
 // ❌ Problematic - transparent background
 className="bg-onboarding-card-bg text-onboarding-text-primary"
@@ -164,9 +167,15 @@ className="bg-onboarding-card-bg text-onboarding-text-primary"
 className="bg-onboarding-bg-secondary text-onboarding-text-primary"
 ```
 
-**Complete Fixed Input Styling:**
+**For browser autofill override issues:**
 ```js
-className="w-full px-4 py-3 border rounded-lg bg-onboarding-bg-secondary text-onboarding-text-primary placeholder:text-onboarding-text-subtle transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-onboarding-accent-end border-onboarding-border-input"
+// ✅ Add autofill override styles to prevent browser interference
+className="... [&:-webkit-autofill]:!bg-onboarding-bg-secondary [&:-webkit-autofill]:!text-onboarding-text-primary [&:-webkit-autofill:focus]:!bg-onboarding-bg-secondary"
+```
+
+**Complete Fixed Input Styling (with autofill protection):**
+```js
+className="w-full px-4 py-3 border rounded-lg bg-onboarding-bg-secondary text-onboarding-text-primary placeholder:text-onboarding-text-subtle transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-onboarding-accent-end [&:-webkit-autofill]:!bg-onboarding-bg-secondary [&:-webkit-autofill]:!text-onboarding-text-primary [&:-webkit-autofill:focus]:!bg-onboarding-bg-secondary border-onboarding-border-input"
 ```
 
 ### Other Form Issues

@@ -75,7 +75,7 @@ export default function InputField({
         maxLength={maxLength}
         aria-invalid={displayError ? 'true' : 'false'}
         aria-describedby={displayError ? `${name}-error` : undefined}
-        className={`w-full px-4 py-3 border rounded-lg bg-onboarding-card-bg text-onboarding-text-primary placeholder:text-onboarding-text-subtle transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-onboarding-accent-end ${
+        className={`w-full px-4 py-3 border rounded-lg bg-onboarding-bg-secondary text-onboarding-text-primary placeholder:text-onboarding-text-subtle transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-onboarding-accent-end [&:-webkit-autofill]:!bg-onboarding-bg-secondary [&:-webkit-autofill]:!text-onboarding-text-primary [&:-webkit-autofill:focus]:!bg-onboarding-bg-secondary ${
           displayError ? "border-red-500" : "border-onboarding-border-input"
         }`}
         {...props}
