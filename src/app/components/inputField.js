@@ -59,6 +59,8 @@ export default function InputField({
 
   const displayError = (error || localError) && (touched || error);
 
+  const { validate: _, sanitize: __, ...inputProps } = props;
+
   return (
     <div className="mb-4">
       <label htmlFor={name} className="block text-sm font-medium text-onboarding-text-primary mb-2">
@@ -78,7 +80,7 @@ export default function InputField({
         className={`w-full px-4 py-3 border rounded-lg bg-onboarding-bg-secondary text-onboarding-text-primary placeholder:text-onboarding-text-subtle transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-onboarding-accent-end [&:-webkit-autofill]:!bg-onboarding-bg-secondary [&:-webkit-autofill]:!text-onboarding-text-primary [&:-webkit-autofill:focus]:!bg-onboarding-bg-secondary ${
           displayError ? "border-red-500" : "border-onboarding-border-input"
         }`}
-        {...props}
+        {...inputProps}
       />
       {displayError && (
         <div id={`${name}-error`} className="mt-1 text-sm text-red-500" role="alert">
