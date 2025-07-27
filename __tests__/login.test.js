@@ -16,17 +16,22 @@ jest.mock('../src/app/context/userContext', () => ({
 // Mock the InputField component to simplify testing (optional, but good for unit tests)
 jest.mock('../src/app/components/inputField', () => ({
   __esModule: true,
-  default: ({ label, value, onChange, ...props }) => (
-    <div>
-      <label htmlFor={props.name}>{label}</label>
-      <input
-        id={props.name}
-        {...props}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      />
-    </div>
-  ),
+  default: ({ label, value, onChange, validate, sanitize, ...props }) => {
+    // Filter out custom props that shouldn't be passed to DOM elements
+    const { validate: _, sanitize: __, ...inputProps } = props;
+    
+    return (
+      <div>
+        <label htmlFor={props.name}>{label}</label>
+        <input
+          id={props.name}
+          {...inputProps}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        />
+      </div>
+    );
+  },
 }));
 
 // Mock the Spinner component to prevent rendering issues in tests
