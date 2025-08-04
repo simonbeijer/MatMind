@@ -21,9 +21,14 @@ const nextConfig = {
             value: 'max-age=31536000; includeSubDomains; preload',
           },
           {
-            key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: *.vercel.app cdn.weatherapi.com; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none';"
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
           },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()',
+          },
+          // CSP now handled dynamically by middleware with nonces
         ],
       },
     ];

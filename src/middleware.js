@@ -4,35 +4,71 @@ import { verifyAuth } from "./lib/auth";
 export async function middleware(request) {
     const token = request.cookies.get("token")?.value;
     const { pathname } = request.nextUrl;
+    
+    // Generate unique nonce for this request (CSP security)
+    const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
+    
+    // Create CSP - relaxed for development, strict for production
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    
+    const cspHeader = isDevelopment 
+        ? `
+            default-src 'self';
+            script-src 'self' 'unsafe-eval' 'unsafe-inline';
+            style-src 'self' 'unsafe-inline';
+            img-src 'self' data: *.vercel.app cdn.weatherapi.com;
+            font-src 'self' data:;
+            connect-src 'self' ws: wss:;
+            frame-ancestors 'none';
+        `.replace(/\s{2,}/g, ' ').trim()
+        : `
+            default-src 'self';
+            script-src 'self' 'nonce-${nonce}';
+            style-src 'self' 'nonce-${nonce}' 'unsafe-inline';
+            img-src 'self' data: *.vercel.app cdn.weatherapi.com;
+            font-src 'self' data:;
+            connect-src 'self';
+            frame-ancestors 'none';
+        `.replace(/\s{2,}/g, ' ').trim();
 
-    console.log("Middleware running on:", pathname);
+    // Helper function to add CSP header to any response
+    const addSecurityHeaders = (response) => {
+        response.headers.set('Content-Security-Policy', cspHeader);
+        response.headers.set('X-Nonce', nonce); // Pass nonce to components if needed
+        return response;
+    };
+
+    // Only log in development to prevent information disclosure
+    if (process.env.NODE_ENV === 'development') {
+        console.log("Middleware running on:", pathname);
+    }
 
     if (pathname === "/") {
-        return NextResponse.next();
+        return addSecurityHeaders(NextResponse.next());
     }
 
     if (pathname === "/login") {
         if (token) {
             try {
                 await verifyAuth(token);
-                return NextResponse.redirect(new URL("/dashboard", request.url));
+                return addSecurityHeaders(NextResponse.redirect(new URL("/dashboard", request.url)));
             } catch (error) {
-                console.log("Invalid token:", error.message);
+                // Token validation failed - no logging to prevent information disclosure
             }
         }
-        return NextResponse.next();
+        return addSecurityHeaders(NextResponse.next());
     }
 
     if (!token) {
-        return NextResponse.redirect(new URL("/login", request.url));
+        return addSecurityHeaders(NextResponse.redirect(new URL("/login", request.url)));
     }
 
     try {
         await verifyAuth(token);
-        return NextResponse.next();
+        return addSecurityHeaders(NextResponse.next());
     } catch (error) {
-        console.log("Invalid token:", error.message);
-        return NextResponse.redirect(new URL("/login", request.url));
+        // Token validation failed - redirect to login without logging
+        return addSecurityHeaders(NextResponse.redirect(new URL("/login", request.url)));
     }
 }
 
