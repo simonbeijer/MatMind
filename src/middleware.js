@@ -23,11 +23,11 @@ export async function middleware(request) {
         `.replace(/\s{2,}/g, ' ').trim()
         : `
             default-src 'self';
-            script-src 'self' 'nonce-${nonce}';
-            style-src 'self' 'nonce-${nonce}' 'unsafe-inline';
-            img-src 'self' data: *.vercel.app cdn.weatherapi.com;
+            script-src 'self' 'unsafe-inline' *.vercel-analytics.com *.vercel-insights.com;
+            style-src 'self' 'unsafe-inline';
+            img-src 'self' data: *.vercel.app cdn.weatherapi.com *.vercel-analytics.com;
             font-src 'self' data:;
-            connect-src 'self';
+            connect-src 'self' *.vercel-analytics.com *.vercel-insights.com;
             frame-ancestors 'none';
         `.replace(/\s{2,}/g, ' ').trim();
 
