@@ -112,36 +112,54 @@ export function GoalsStep({ profile, updateProfile }) {
         </Select>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <Label className="text-onboarding-text-primary">
-            Where do you want the most improvement?
-          </Label>
-          <Select 
-            value={profile.improvementFocus || ""} 
-            onValueChange={(value) => updateProfile({ improvementFocus: value })}
-            placeholder="Select focus area"
-          >
-            <SelectItem value="offense">✅ Offense</SelectItem>
-            <SelectItem value="defense">✅ Defense</SelectItem>
-            <SelectItem value="both-focus">✅ Both</SelectItem>
-          </Select>
-        </div>
+      <div className="space-y-3">
+        <button
+          type="button"
+          onClick={() => toggleCategory('additionalFocus')}
+          className="flex items-center gap-2 text-base font-medium text-onboarding-text-primary hover:text-onboarding-text-primary hover:bg-onboarding-hover-bg px-2 py-1 rounded-md transition-all duration-200 w-full justify-start"
+        >
+          <span className="text-lg">🎯</span>
+          <span>Additional Focus</span>
+          <ChevronDown 
+            className={`h-4 w-4 ml-auto transition-transform duration-200 ${
+              expandedCategories['additionalFocus'] ? 'rotate-180' : ''
+            }`} 
+          />
+        </button>
+        
+        {expandedCategories['additionalFocus'] && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ml-8 animate-in slide-in-from-top-1 duration-200">
+            <div className="space-y-2">
+              <Label className="text-onboarding-text-primary">
+                Where do you want the most improvement?
+              </Label>
+              <Select 
+                value={profile.improvementFocus || ""} 
+                onValueChange={(value) => updateProfile({ improvementFocus: value })}
+                placeholder="Select focus area"
+              >
+                <SelectItem value="offense">✅ Offense</SelectItem>
+                <SelectItem value="defense">✅ Defense</SelectItem>
+                <SelectItem value="both-focus">✅ Both</SelectItem>
+              </Select>
+            </div>
 
-        <div className="space-y-2">
-          <Label className="text-onboarding-text-primary">
-            Which area needs the most attention?
-          </Label>
-          <Select 
-            value={profile.areaFocus || ""} 
-            onValueChange={(value) => updateProfile({ areaFocus: value })}
-            placeholder="Select area"
-          >
-            <SelectItem value="standing">✅ Standing / Takedowns</SelectItem>
-            <SelectItem value="ground">✅ Ground / Grappling</SelectItem>
-            <SelectItem value="both-area">✅ Both</SelectItem>
-          </Select>
-        </div>
+            <div className="space-y-2">
+              <Label className="text-onboarding-text-primary">
+                Which area needs the most attention?
+              </Label>
+              <Select 
+                value={profile.areaFocus || ""} 
+                onValueChange={(value) => updateProfile({ areaFocus: value })}
+                placeholder="Select area"
+              >
+                <SelectItem value="standing">✅ Standing / Takedowns</SelectItem>
+                <SelectItem value="ground">✅ Ground / Grappling</SelectItem>
+                <SelectItem value="both-area">✅ Both</SelectItem>
+              </Select>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="space-y-3">

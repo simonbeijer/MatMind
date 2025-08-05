@@ -119,7 +119,7 @@ export default function PlanPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-onboarding-bg-primary via-onboarding-bg-secondary to-onboarding-bg-primary">
       <BetaNoticeModal isOpen={showBetaNotice} onClose={closeBetaNotice} />
-      <div className="container mx-auto px-4 py-8">
+      <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Profile Summary */}
         <Card className="bg-onboarding-card-bg border-onboarding-border-subtle backdrop-blur-sm mb-8 shadow-2xl">
           <CardHeader className="pb-4">
@@ -181,42 +181,42 @@ export default function PlanPage() {
           <TabsList className="grid w-full grid-cols-6 gap-1 p-1 bg-onboarding-card-bg border border-onboarding-border-subtle rounded-lg h-auto">
             <TabsTrigger 
               value="technical" 
-              className="flex items-center justify-center gap-2 py-2.5 px-2 rounded-md font-medium transition-all duration-200 data-[state=active]:bg-blue-500/20 data-[state=active]:text-blue-300 hover:bg-onboarding-hover-bg text-xs lg:text-sm"
+              className="flex items-center justify-center gap-2 py-2.5 px-2 rounded-md font-medium transition-all duration-200 data-[state=active]:bg-onboarding-accent-end/20 data-[state=active]:text-onboarding-accent-end hover:bg-onboarding-hover-bg text-xs lg:text-sm text-onboarding-text-primary"
             >
               <User className="h-4 w-4" />
               <span className="hidden sm:inline">Technical</span>
             </TabsTrigger>
             <TabsTrigger 
               value="mental" 
-              className="flex items-center justify-center gap-2 py-2.5 px-2 rounded-md font-medium transition-all duration-200 data-[state=active]:bg-onboarding-accent-start/20 data-[state=active]:text-onboarding-accent-start hover:bg-onboarding-hover-bg text-xs lg:text-sm"
+              className="flex items-center justify-center gap-2 py-2.5 px-2 rounded-md font-medium transition-all duration-200 data-[state=active]:bg-onboarding-accent-end/20 data-[state=active]:text-onboarding-accent-end hover:bg-onboarding-hover-bg text-xs lg:text-sm text-onboarding-text-primary"
             >
               <Brain className="h-4 w-4" />
               <span className="hidden sm:inline">Mental</span>
             </TabsTrigger>
             <TabsTrigger 
               value="recovery" 
-              className="flex items-center justify-center gap-2 py-2.5 px-2 rounded-md font-medium transition-all duration-200 data-[state=active]:bg-orange-500/20 data-[state=active]:text-orange-300 hover:bg-onboarding-hover-bg text-xs lg:text-sm"
+              className="flex items-center justify-center gap-2 py-2.5 px-2 rounded-md font-medium transition-all duration-200 data-[state=active]:bg-onboarding-accent-end/20 data-[state=active]:text-onboarding-accent-end hover:bg-onboarding-hover-bg text-xs lg:text-sm text-onboarding-text-primary"
             >
               <Heart className="h-4 w-4" />
               <span className="hidden sm:inline">Recovery</span>
             </TabsTrigger>
             <TabsTrigger 
               value="strength" 
-              className="flex items-center justify-center gap-2 py-2.5 px-2 rounded-md font-medium transition-all duration-200 data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300 hover:bg-onboarding-hover-bg text-xs lg:text-sm"
+              className="flex items-center justify-center gap-2 py-2.5 px-2 rounded-md font-medium transition-all duration-200 data-[state=active]:bg-onboarding-accent-end/20 data-[state=active]:text-onboarding-accent-end hover:bg-onboarding-hover-bg text-xs lg:text-sm text-onboarding-text-primary"
             >
               <Dumbbell className="h-4 w-4" />
               <span className="hidden sm:inline">Strength</span>
             </TabsTrigger>
             <TabsTrigger 
               value="competition" 
-              className="flex items-center justify-center gap-2 py-2.5 px-2 rounded-md font-medium transition-all duration-200 data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-300 hover:bg-onboarding-hover-bg text-xs lg:text-sm"
+              className="flex items-center justify-center gap-2 py-2.5 px-2 rounded-md font-medium transition-all duration-200 data-[state=active]:bg-onboarding-accent-end/20 data-[state=active]:text-onboarding-accent-end hover:bg-onboarding-hover-bg text-xs lg:text-sm text-onboarding-text-primary"
             >
               <Trophy className="h-4 w-4" />
               <span className="hidden sm:inline">Competition</span>
             </TabsTrigger>
             <TabsTrigger 
               value="support" 
-              className="flex items-center justify-center gap-2 py-2.5 px-2 rounded-md font-medium transition-all duration-200 data-[state=active]:bg-teal-500/20 data-[state=active]:text-teal-300 hover:bg-onboarding-hover-bg text-xs lg:text-sm"
+              className="flex items-center justify-center gap-2 py-2.5 px-2 rounded-md font-medium transition-all duration-200 data-[state=active]:bg-onboarding-accent-end/20 data-[state=active]:text-onboarding-accent-end hover:bg-onboarding-hover-bg text-xs lg:text-sm text-onboarding-text-primary"
             >
               <Users className="h-4 w-4" />
               <span className="hidden sm:inline">Support</span>

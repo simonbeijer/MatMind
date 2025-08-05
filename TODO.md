@@ -41,11 +41,29 @@
 - [ ] Keep onboarding `max-w-2xl` (already perfect)
 - [ ] Test: Verify alignment across all pages and responsive behavior
 
-## Phase 1: Minimal GEMINI Integration (1-2 hours)
-- [ ] Install package: `npm install @google/generative-ai`
-- [ ] Verify GEMINI_API_KEY in .env file
-- [ ] Replace `/src/app/lib/ai-service.js` with minimal GEMINI function
+## Phase 1: Simple GEMINI Integration (1-2 hours)
+
+**Project Approach: Simple Test Implementation**
+- This is a simple test project, not production-ready
+- No complex error handling, testing, or deployment needed
+- Focus: Basic functionality to test GEMINI API integration
+
+### Simple AI Flow Example:
+**Input:** User profile (age: 28, blue belt, super heavyweight, tall/lanky, goal: "Improve guard game")
+**Prompt:** "You're a BJJ expert. Give advice with role headers and safety disclaimer."
+**Output:** Simple formatted response with 🥋 Coach, 🧠 Mental Coach, 🏥 Physio sections
+
+### Tasks:
+- [x] Install package: `npm install @google/generative-ai`
+- [x] Verify GEMINI_API_KEY in .env file  
+- [ ] Replace `/src/app/lib/ai-service.js` with simple GEMINI function
 - [ ] Test with existing UI (should work exactly the same)
+
+### Implementation Notes:
+- Use basic prompt template with user profile injection
+- Keep existing UI structure (6 coach format)
+- Add simple fallback to mock data if API fails
+- No complex prompt engineering needed
 
 ## Phase 2: Fix Customize Plan (Later)
 - [ ] Connect onboarding data to plan generation
@@ -73,7 +91,28 @@
 - Header aligns with page content width
 - All changes pass accessibility and responsiveness tests
 
+## Project Clarifications
+
+**Simplified Requirements (No complex features needed):**
+- ❌ No comprehensive testing strategy needed
+- ❌ No production deployment planning required  
+- ❌ No complex error handling or monitoring
+- ❌ No user analytics or feedback collection
+- ❌ No extensive customization features in Phase 2
+- ❌ No BJJ expert content validation needed
+
+**What We Actually Need:**
+- ✅ Basic GEMINI API integration that works
+- ✅ Simple prompt → AI response → display flow
+- ✅ Fallback to mock data if API fails
+- ✅ Keep existing UI working exactly as is
+
+**Timeline Reality:**
+- Week 1: Get basic GEMINI working (this is the only priority)
+- Phases 2+ are "later" with no timeline pressure
+
 ## Notes
 - Keep it ultra-simple
 - Single function, one prompt, basic response
 - No overengineering
+- This is a test project, not production software

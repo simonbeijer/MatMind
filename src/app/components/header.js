@@ -51,7 +51,7 @@ export default function Header({
   };
   return (
     <header className="border-b border-onboarding-border-subtle bg-onboarding-bg-primary/80 backdrop-blur-sm">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
           <Image
             src="/mat-mind-icon.png"
