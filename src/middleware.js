@@ -14,11 +14,11 @@ export async function middleware(request) {
     const cspHeader = isDevelopment 
         ? `
             default-src 'self';
-            script-src 'self' 'unsafe-eval' 'unsafe-inline';
+            script-src 'self' 'unsafe-eval' 'unsafe-inline' *.vercel-analytics.com *.vercel-insights.com;
             style-src 'self' 'unsafe-inline';
             img-src 'self' data: *.vercel.app cdn.weatherapi.com;
             font-src 'self' data:;
-            connect-src 'self' ws: wss:;
+            connect-src 'self' ws: wss: generativelanguage.googleapis.com;
             frame-ancestors 'none';
         `.replace(/\s{2,}/g, ' ').trim()
         : `
@@ -27,7 +27,7 @@ export async function middleware(request) {
             style-src 'self' 'unsafe-inline';
             img-src 'self' data: *.vercel.app cdn.weatherapi.com *.vercel-analytics.com;
             font-src 'self' data:;
-            connect-src 'self' *.vercel-analytics.com *.vercel-insights.com;
+            connect-src 'self' *.vercel-analytics.com *.vercel-insights.com generativelanguage.googleapis.com;
             frame-ancestors 'none';
         `.replace(/\s{2,}/g, ' ').trim();
 
