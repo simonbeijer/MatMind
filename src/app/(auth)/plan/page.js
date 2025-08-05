@@ -30,6 +30,29 @@ export default function PlanPage() {
   const [error, setError] = useState(null)
   const [showBetaNotice, setShowBetaNotice] = useState(false)
 
+  // Validation function to check if onboarding is complete
+  const isOnboardingComplete = (profile) => {
+    if (!profile) return false
+    
+    // Step 1 requirements: Profile data
+    const hasProfileData = profile.beltRank && 
+                          profile.age && 
+                          profile.trainingFrequency && 
+                          profile.weight
+    
+    // Step 2 requirements: Goals data  
+    const hasGoalsData = profile.primaryGoal && 
+                        profile.specificGoals && 
+                        profile.specificGoals.length > 0 && 
+                        profile.timeframe
+    
+    // Step 3 requirements: Focus areas
+    const hasFocusData = profile.focusAreas && 
+                        profile.focusAreas.length > 0
+    
+    return hasProfileData && hasGoalsData && hasFocusData
+  }
+
   useEffect(() => {
     const loadProfileAndGeneratePlan = async () => {
       try {
@@ -41,6 +64,14 @@ export default function PlanPage() {
         }
 
         const userProfile = JSON.parse(storedProfile)
+        
+        // Validate that onboarding is actually complete
+        if (!isOnboardingComplete(userProfile)) {
+          setError("Your profile is incomplete. Please complete the onboarding process to get your personalized plan.")
+          setIsLoading(false)
+          return
+        }
+
         setProfile(userProfile)
 
         // Generate the training plan using AI
@@ -59,7 +90,10 @@ export default function PlanPage() {
   }, [])
 
   const handleRegeneratePlan = async () => {
-    if (!profile) return
+    if (!profile || !isOnboardingComplete(profile)) {
+      setError("Your profile is incomplete. Please complete the onboarding process first.")
+      return
+    }
 
     setIsLoading(true)
     setError(null)

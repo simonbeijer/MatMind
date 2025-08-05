@@ -46,8 +46,48 @@ export default function OnboardingPage() {
   const [isGenerating, setIsGenerating] = useState(false)
   const router = useRouter()
 
+  // Session validation function
+  const checkSession = async () => {
+    try {
+      const response = await fetch("/api/auth/user", {
+        method: "GET",
+        credentials: "include",
+      })
+      return response.ok
+    } catch (error) {
+      console.error("Session check failed:", error)
+      return false
+    }
+  }
+
+  // Handle session expiration
+  const handleSessionExpired = () => {
+    // Save current progress
+    localStorage.setItem("onboardingProgress", JSON.stringify({
+      currentStep,
+      profile,
+      returnUrl: "/onboarding"
+    }))
+    
+    // Redirect to login
+    router.push("/login?expired=true&return=/onboarding")
+  }
+
+
   const totalSteps = 3
   const progress = (currentStep / totalSteps) * 100
+
+  // Check for saved progress on mount
+  useEffect(() => {
+    const savedProgress = localStorage.getItem("onboardingProgress")
+    if (savedProgress) {
+      const { currentStep: savedStep, profile: savedProfile } = JSON.parse(savedProgress)
+      setCurrentStep(savedStep)
+      setProfile(savedProfile)
+      // Clear saved progress after restoring
+      localStorage.removeItem("onboardingProgress")
+    }
+  }, [])
 
   // Emit step change events for header
   useEffect(() => {
@@ -57,7 +97,14 @@ export default function OnboardingPage() {
     window.dispatchEvent(event);
   }, [currentStep, totalSteps]);
 
-  const handleNext = () => {
+  const handleNext = async () => {
+    // Check session before proceeding
+    const isSessionValid = await checkSession()
+    if (!isSessionValid) {
+      handleSessionExpired()
+      return
+    }
+
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1)
     } else {
