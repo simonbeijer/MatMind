@@ -58,7 +58,7 @@ export default function Header({
             alt="MatMind Logo"
             width={52}
             height={52}
-            className="w-[52px] h-[52px] rounded-lg mr-4"
+            className="w-[52px] h-[52px] mr-4"
           />
           <span className="text-onboarding-text-primary font-bold text-xl">
             MatMind
