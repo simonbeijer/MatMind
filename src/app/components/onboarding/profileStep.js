@@ -8,9 +8,18 @@ import { Checkbox } from "../ui/checkbox"
 import { Slider } from "../ui/slider"
 import { ChevronDown } from "lucide-react"
 
-export function ProfileStep({ profile, updateProfile }) {
+export function ProfileStep({ profile, updateProfile, validateSession }) {
   const [showBodyType, setShowBodyType] = useState(false)
   const [expandedCategories, setExpandedCategories] = useState({})
+
+  // Helper function to validate session before updating profile
+  const updateProfileWithSessionCheck = async (updates) => {
+    if (validateSession) {
+      const isValid = await validateSession()
+      if (!isValid) return // Session expired, user will be redirected
+    }
+    updateProfile(updates)
+  }
   
   const challengeCategories = {
     "Mental & Emotional Challenges": {
@@ -56,7 +65,7 @@ export function ProfileStep({ profile, updateProfile }) {
     }
   }
 
-  const handleChallengeChange = (challenge, checked) => {
+  const handleChallengeChange = async (challenge, checked) => {
     if (checked && profile.currentChallenges.length >= 8) {
       // Prevent selecting more than 8 challenges
       return;
@@ -66,7 +75,7 @@ export function ProfileStep({ profile, updateProfile }) {
       ? [...profile.currentChallenges, challenge]
       : profile.currentChallenges.filter((c) => c !== challenge)
 
-    updateProfile({ currentChallenges: updatedChallenges })
+    await updateProfileWithSessionCheck({ currentChallenges: updatedChallenges })
   }
 
   const toggleCategory = (categoryName) => {
@@ -90,11 +99,11 @@ export function ProfileStep({ profile, updateProfile }) {
               inputMode="numeric"
               pattern="[0-9]*"
               value={profile.age}
-              onChange={(e) => {
+              onChange={async (e) => {
                 const value = e.target.value.replace(/[^0-9]/g, '');
                 const numValue = parseInt(value);
                 if (value === '' || (numValue >= 1 && numValue <= 99)) {
-                  updateProfile({ age: value });
+                  await updateProfileWithSessionCheck({ age: value });
                 }
               }}
               placeholder="Enter your age"
@@ -126,11 +135,11 @@ export function ProfileStep({ profile, updateProfile }) {
               type="text"
               inputMode="decimal"
               value={profile.weight}
-              onChange={(e) => {
+              onChange={async (e) => {
                 const value = e.target.value.replace(/[^0-9.]/g, '');
                 const numValue = parseFloat(value);
                 if (value === '' || value === '.' || (!isNaN(numValue) && numValue <= 300)) {
-                  updateProfile({ weight: value });
+                  await updateProfileWithSessionCheck({ weight: value });
                 }
               }}
               placeholder="Enter your weight"
@@ -161,7 +170,7 @@ export function ProfileStep({ profile, updateProfile }) {
           <Select 
             id="beltRank"
             value={profile.beltRank} 
-            onValueChange={(value) => updateProfile({ beltRank: value })}
+            onValueChange={async (value) => await updateProfileWithSessionCheck({ beltRank: value })}
             placeholder="Select your belt rank"
           >
             <SelectItem value="white">White Belt</SelectItem>
@@ -183,11 +192,11 @@ export function ProfileStep({ profile, updateProfile }) {
               inputMode="numeric"
               pattern="[0-9]*"
               value={profile.trainingFrequency}
-              onChange={(e) => {
+              onChange={async (e) => {
                 const value = e.target.value.replace(/[^0-9]/g, '');
                 const numValue = parseInt(value);
                 if (value === '' || (numValue >= 1 && numValue <= 14)) {
-                  updateProfile({ trainingFrequency: value });
+                  await updateProfileWithSessionCheck({ trainingFrequency: value });
                 }
               }}
               placeholder="How many times per week?"
@@ -232,7 +241,7 @@ export function ProfileStep({ profile, updateProfile }) {
                 <Select 
                   id="bodyType"
                   value={profile.bodyType} 
-                  onValueChange={(value) => updateProfile({ bodyType: value })}
+                  onValueChange={async (value) => await updateProfileWithSessionCheck({ bodyType: value })}
                   placeholder="Select your body type"
                 >
                   <SelectItem value="long-limbs">Long Limbs</SelectItem>
@@ -248,7 +257,7 @@ export function ProfileStep({ profile, updateProfile }) {
                 <Select 
                   id="gender"
                   value={profile.gender} 
-                  onValueChange={(value) => updateProfile({ gender: value })}
+                  onValueChange={async (value) => await updateProfileWithSessionCheck({ gender: value })}
                   placeholder="Select your gender"
                 >
                   <SelectItem value="male">Male</SelectItem>
@@ -266,7 +275,7 @@ export function ProfileStep({ profile, updateProfile }) {
                 </Label>
                 <Slider
                   value={[profile.giPreference || 50]}
-                  onValueChange={(value) => updateProfile({ giPreference: value[0] })}
+                  onValueChange={async (value) => await updateProfileWithSessionCheck({ giPreference: value[0] })}
                   min={0}
                   max={100}
                   step={5}
@@ -287,7 +296,7 @@ export function ProfileStep({ profile, updateProfile }) {
                 </Label>
                 <Slider
                   value={[profile.flexibility || 5]}
-                  onValueChange={(value) => updateProfile({ flexibility: value[0] })}
+                  onValueChange={async (value) => await updateProfileWithSessionCheck({ flexibility: value[0] })}
                   min={1}
                   max={10}
                   step={1}
@@ -305,7 +314,7 @@ export function ProfileStep({ profile, updateProfile }) {
                 </Label>
                 <Slider
                   value={[profile.strength || 5]}
-                  onValueChange={(value) => updateProfile({ strength: value[0] })}
+                  onValueChange={async (value) => await updateProfileWithSessionCheck({ strength: value[0] })}
                   min={1}
                   max={10}
                   step={1}
@@ -325,7 +334,7 @@ export function ProfileStep({ profile, updateProfile }) {
                 </Label>
                 <Slider
                   value={[profile.cardio || 5]}
-                  onValueChange={(value) => updateProfile({ cardio: value[0] })}
+                  onValueChange={async (value) => await updateProfileWithSessionCheck({ cardio: value[0] })}
                   min={1}
                   max={10}
                   step={1}
@@ -350,7 +359,7 @@ export function ProfileStep({ profile, updateProfile }) {
           id="experience"
           placeholder="Tell us about your BJJ journey, other training, or sports background..."
           value={profile.experience}
-          onChange={(e) => updateProfile({ experience: e.target.value })}
+          onChange={async (e) => await updateProfileWithSessionCheck({ experience: e.target.value })}
           rows={3}
         />
       </div>
@@ -418,7 +427,7 @@ export function ProfileStep({ profile, updateProfile }) {
               id="otherChallenges"
               placeholder="Other struggles you're facing (optional)..."
               value={profile.otherChallenges || ""}
-              onChange={(e) => updateProfile({ otherChallenges: e.target.value })}
+              onChange={async (e) => await updateProfileWithSessionCheck({ otherChallenges: e.target.value })}
               rows={3}
               className="w-full"
             />
