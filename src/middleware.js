@@ -16,7 +16,7 @@ export async function middleware(request) {
             default-src 'self';
             script-src 'self' 'unsafe-eval' 'unsafe-inline' *.vercel-analytics.com *.vercel-insights.com;
             style-src 'self' 'unsafe-inline';
-            img-src 'self' data: *.vercel.app cdn.weatherapi.com;
+            img-src 'self' data: *.vercel.app;
             font-src 'self' data:;
             connect-src 'self' ws: wss: generativelanguage.googleapis.com;
             frame-ancestors 'none';
@@ -25,7 +25,7 @@ export async function middleware(request) {
             default-src 'self';
             script-src 'self' 'unsafe-inline' *.vercel-analytics.com *.vercel-insights.com;
             style-src 'self' 'unsafe-inline';
-            img-src 'self' data: *.vercel.app cdn.weatherapi.com *.vercel-analytics.com;
+            img-src 'self' data: *.vercel.app *.vercel-analytics.com;
             font-src 'self' data:;
             connect-src 'self' *.vercel-analytics.com *.vercel-insights.com generativelanguage.googleapis.com;
             frame-ancestors 'none';
