@@ -6,6 +6,10 @@ logs
 
 .claude/
 CLAUDE.md
+tools
+tools/
+tools/*
+
 
 # dependencies
 /node_modules

@@ -210,8 +210,7 @@ export default function PlanPage() {
           </CardContent>
         </Card>
 
-        {/* TODO: RESTORE LATER - 6-Tab coaching system */}
-        {/*
+        {/* TODO: RESTORE LATER - 6-Tab coaching system 
         {/* Coaching Tabs */}
         {/*
         <Tabs defaultValue="technical" className="space-y-6">
@@ -656,6 +655,7 @@ export default function PlanPage() {
                     ))}
                   </ul>
                 </div>
+              </div>
               </CardContent>
             </Card>
           </TabsContent>
