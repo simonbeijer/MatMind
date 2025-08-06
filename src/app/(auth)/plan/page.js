@@ -210,7 +210,10 @@ export default function PlanPage() {
           </CardContent>
         </Card>
 
+        {/* TODO: RESTORE LATER - 6-Tab coaching system */}
+        {/*
         {/* Coaching Tabs */}
+        {/*
         <Tabs defaultValue="technical" className="space-y-6">
           <TabsList className="grid w-full grid-cols-6 gap-1 p-1 bg-onboarding-card-bg border border-onboarding-border-subtle rounded-lg h-auto">
             <TabsTrigger 
@@ -256,7 +259,9 @@ export default function PlanPage() {
               <span className="hidden sm:inline">Support</span>
             </TabsTrigger>
           </TabsList>
+        */}
 
+          {/*
           <TabsContent value="technical">
             <Card className="bg-onboarding-card-bg border-onboarding-border-subtle backdrop-blur-sm">
               <CardHeader className="pb-3">
@@ -322,7 +327,9 @@ export default function PlanPage() {
               </CardContent>
             </Card>
           </TabsContent>
+          */}
 
+          {/*
           <TabsContent value="mental">
             <Card className="bg-onboarding-card-bg border-onboarding-border-subtle backdrop-blur-sm">
               <CardHeader className="pb-3">
@@ -653,6 +660,26 @@ export default function PlanPage() {
             </Card>
           </TabsContent>
         </Tabs>
+        */}
+
+        {/* Simple response display for prompt testing */}
+        <Card className="bg-onboarding-card-bg border-onboarding-border-subtle backdrop-blur-sm">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-xl font-semibold text-onboarding-text-primary">
+              Your Personalized Training Plan
+            </CardTitle>
+            <CardDescription className="text-onboarding-text-muted">
+              AI-generated guidance covering: Technical • Mental • Recovery • Strength • Competition • Support
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="bg-onboarding-bg-secondary/50 rounded-lg p-6">
+              <pre className="whitespace-pre-wrap text-onboarding-text-muted font-sans text-sm leading-relaxed">
+                {plan.response}
+              </pre>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-6 justify-center mt-12">
