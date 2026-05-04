@@ -1,5 +1,33 @@
 @import "tailwindcss";
+
 @theme {
+  /* Fonts — Fraunces (display/serif), Geist (body), Commit Mono (mono) */
+  --font-sans: var(--font-sans-raw), "Helvetica Neue", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-serif-raw), "Times New Roman", Georgia, serif;
+  --font-display: var(--font-serif-raw), "Times New Roman", Georgia, serif;
+  --font-mono: "Commit Mono", "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+
+  /* Core palette — handoff (sumi/bone editorial) */
+  --color-bone: var(--bone);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-sumi: var(--sumi);
+  --color-sumi-2: var(--sumi-2);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-ink-line: var(--ink-line);
+  --color-cinnabar: var(--cinnabar);
+
+  /* Cover (dark editorial surface) */
+  --color-cover-bg: var(--cover-bg);
+  --color-cover-fg: var(--cover-fg);
+  --color-cover-dim: var(--cover-dim);
+  --color-cover-faint: var(--cover-faint);
+  --color-cover-line: var(--cover-line);
+
+  /* Semantic shadcn-style aliases */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
@@ -13,8 +41,8 @@
   --color-ring: var(--ring);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
-  
-  /* Onboarding theme colors for Tailwind */
+
+  /* Legacy onboarding-* aliases — remapped to handoff palette */
   --color-onboarding-bg-primary: var(--onboarding-bg-primary);
   --color-onboarding-bg-secondary: var(--onboarding-bg-secondary);
   --color-onboarding-text-primary: var(--onboarding-text-primary);
@@ -27,75 +55,79 @@
   --color-onboarding-card-bg: var(--onboarding-card-bg);
   --color-onboarding-hover-bg: var(--onboarding-hover-bg);
   --color-onboarding-progress-bg: var(--onboarding-progress-bg);
+
+  /* Tracking — editorial mono uppercase */
+  --tracking-eyebrow: 0.18em;
+  --tracking-kicker: 0.22em;
+  --tracking-rule: 0.28em;
+  --tracking-cover: 0.32em;
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
-  --primary: #171717;
-  --primary-foreground: #fafafa;
-  --secondary: #f5f5f5;
-  --secondary-foreground: #171717;
-  --muted: #f5f5f5;
-  --muted-foreground: #737373;
-  --border: #e5e5e5;
-  --input: #e5e5e5;
-  --ring: #0a0a0a;
-  --destructive: #ef4444;
-  --destructive-foreground: #fafafa;
-  --radius: 0.5rem;
-  
-  /* Onboarding theme colors - light mode defaults */
-  --onboarding-bg-primary: #FFFFFF;
-  --onboarding-bg-secondary: #F8F9FA;
-  --onboarding-text-primary: #1F2937;
-  --onboarding-text-muted: rgba(31, 41, 55, 0.7);
-  --onboarding-text-subtle: rgba(31, 41, 55, 0.5);
-  --onboarding-border-subtle: rgba(31, 41, 55, 0.1);
-  --onboarding-border-input: rgba(31, 41, 55, 0.2);
-  --onboarding-accent-start: #45A29E;
-  --onboarding-accent-end: #66FCF1;
-  --onboarding-card-bg: rgba(248, 249, 250, 0.6);
-  --onboarding-hover-bg: rgba(31, 41, 55, 0.1);
-  --onboarding-progress-bg: rgba(31, 41, 55, 0.2);
+  /* Handoff palette — bone (light editorial surface) */
+  --bone: #F2EDE4;
+  --paper: #F2EDE4;
+  --paper-2: #E8E0CF;
+  --sumi: #1A1B20;
+  --sumi-2: #15161B;
+  --ink: #1A1B20;
+  --ink-soft: rgba(26, 27, 32, 0.62);
+  --ink-muted: rgba(26, 27, 32, 0.62);
+  --ink-faint: rgba(26, 27, 32, 0.32);
+  --ink-line: rgba(26, 27, 32, 0.18);
+  --cinnabar: #C8102E;
+
+  /* Cover — dark surface for the wordmark cover artboard only */
+  --cover-bg: #15161B;
+  --cover-fg: #F2EDE4;
+  --cover-dim: rgba(242, 237, 228, 0.55);
+  --cover-faint: rgba(242, 237, 228, 0.22);
+  --cover-line: rgba(242, 237, 228, 0.18);
+
+  /* Semantic */
+  --background: #F2EDE4;
+  --foreground: #1A1B20;
+  --primary: #C8102E;
+  --primary-foreground: #F2EDE4;
+  --secondary: #E8E0CF;
+  --secondary-foreground: #1A1B20;
+  --muted: #E8E0CF;
+  --muted-foreground: rgba(26, 27, 32, 0.62);
+  --border: rgba(26, 27, 32, 0.18);
+  --input: rgba(26, 27, 32, 0.22);
+  --ring: #1A1B20;
+  --destructive: #C8102E;
+  --destructive-foreground: #F2EDE4;
+  --radius: 0;
+
+  /* Legacy onboarding-* aliases */
+  --onboarding-bg-primary: #F2EDE4;
+  --onboarding-bg-secondary: #E8E0CF;
+  --onboarding-text-primary: #1A1B20;
+  --onboarding-text-muted: rgba(26, 27, 32, 0.62);
+  --onboarding-text-subtle: rgba(26, 27, 32, 0.32);
+  --onboarding-border-subtle: rgba(26, 27, 32, 0.18);
+  --onboarding-border-input: rgba(26, 27, 32, 0.22);
+  --onboarding-accent-start: #C8102E;
+  --onboarding-accent-end: #C8102E;
+  --onboarding-card-bg: #E8E0CF;
+  --onboarding-hover-bg: rgba(26, 27, 32, 0.06);
+  --onboarding-progress-bg: rgba(26, 27, 32, 0.15);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #fafafa;
-    --primary: #fafafa;
-    --primary-foreground: #171717;
-    --secondary: #262626;
-    --secondary-foreground: #fafafa;
-    --muted: #262626;
-    --muted-foreground: #a3a3a3;
-    --border: #262626;
-    --input: #262626;
-    --ring: #d4d4d4;
-    --destructive: #dc2626;
-    --destructive-foreground: #fafafa;
-    
-    /* Onboarding theme colors - dark mode overrides */
-    --onboarding-bg-primary: #0B0C10;
-    --onboarding-bg-secondary: #1F2833;
-    --onboarding-text-primary: #C5C6C7;
-    --onboarding-text-muted: rgba(197, 198, 199, 0.7);
-    --onboarding-text-subtle: rgba(197, 198, 199, 0.5);
-    --onboarding-border-subtle: rgba(197, 198, 199, 0.1);
-    --onboarding-border-input: rgba(197, 198, 199, 0.2);
-    --onboarding-accent-start: #45A29E;
-    --onboarding-accent-end: #66FCF1;
-    --onboarding-card-bg: rgba(31, 40, 51, 0.6);
-    --onboarding-hover-bg: rgba(197, 198, 199, 0.1);
-    --onboarding-progress-bg: rgba(197, 198, 199, 0.2);
-  }
-}
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  line-height: 1.6;
+  font-family: var(--font-sans);
+  line-height: 1.55;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hairline rule — replaces card shadows everywhere */
+.hairline {
+  border: 0;
+  border-top: 1px solid var(--ink-line);
 }
 
 @layer base;
