@@ -1,125 +1,164 @@
 import Link from "next/link";
-import { ArrowRight, Trophy, User, Heart, Users, Brain, Dumbbell } from "lucide-react";
-import Header from "./components/header";
-import { UserProvider } from "./context/userContext";
+
+const ROMAN = ["I.", "II.", "III.", "IV.", "V."];
+const RINGS = [
+  "Earth · belt",
+  "Water · consistency",
+  "Fire · focus",
+  "Wind · voices",
+  "Void · plan",
+];
 
 export default function Home() {
   return (
-    <UserProvider>
-      <div className="min-h-screen bg-gradient-to-br from-onboarding-bg-primary via-onboarding-bg-secondary to-onboarding-bg-primary">
-        <Header showAuth={false} showNavigation={false} isHomepage={true} />
+    <div className="min-h-screen bg-bone text-ink font-sans relative overflow-hidden">
+      {/* double frame */}
+      <div className="absolute inset-3 sm:inset-6 border border-ink pointer-events-none" />
+      <div className="absolute inset-4 sm:inset-8 border border-ink-faint pointer-events-none" />
 
-      {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20 text-center">
-        <div className="max-w-4xl mx-auto">
-          <div className="mb-6 inline-block bg-onboarding-accent-start/20 text-onboarding-accent-start border border-onboarding-accent-start/30 px-3 py-1 rounded-full text-sm">
-            🥋 AI-Powered Jiu-Jitsu Development
-          </div>
-          <h1 className="text-5xl md:text-7xl font-bold text-onboarding-text-primary mb-6 leading-tight">
-            Train Smarter,
-            <span className="bg-gradient-to-r from-onboarding-accent-start to-onboarding-accent-end bg-clip-text text-transparent">
-              {" "}
-              Roll Better
-            </span>
-          </h1>
-          <p className="text-xl text-onboarding-text-muted mb-8 max-w-2xl mx-auto">
-            Get highly personalized training, mindset, and recovery plans tailored to your body type, goals, and
-            constraints. Perfect for super heavyweights, lanky grapplers, and anyone looking to level up.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/login">
-              <button className="bg-gradient-to-r from-onboarding-accent-end to-onboarding-accent-start hover:from-onboarding-accent-end/80 hover:to-onboarding-accent-start/80 text-onboarding-bg-primary text-lg px-8 py-3 rounded-md transition-colors inline-flex items-center">
-                Create My Plan <ArrowRight className="ml-2 h-5 w-5" />
-              </button>
-            </Link>
-            <button className="border border-onboarding-border-subtle text-onboarding-text-primary hover:bg-onboarding-hover-bg text-lg px-8 py-3 rounded-md bg-transparent transition-colors">
-              See Example Plans
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-onboarding-text-primary mb-4">
-            Your Personal BJJ Dream Team
-          </h2>
-          <p className="text-onboarding-text-muted text-lg max-w-2xl mx-auto">
-            Multiple AI coaching personas work together to create your perfect training plan
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div className="bg-onboarding-card-bg border border-onboarding-border-subtle rounded-lg backdrop-blur-sm p-6">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center mb-4">
-              <User className="h-6 w-6 text-white" />
-            </div>
-            <h3 className="text-onboarding-text-primary font-semibold text-lg mb-2">Technical Coach</h3>
-            <p className="text-onboarding-text-muted">
-              Personalized drills, techniques, and rolling strategies based on your body type and skill level
-            </p>
-          </div>
-
-          <div className="bg-onboarding-card-bg border border-onboarding-border-subtle rounded-lg backdrop-blur-sm p-6">
-            <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center mb-4">
-              <Brain className="h-6 w-6 text-white" />
-            </div>
-            <h3 className="text-onboarding-text-primary font-semibold text-lg mb-2">Mental Coach</h3>
-            <p className="text-onboarding-text-muted">
-              Competition prep, mindfulness techniques, and mental triggers for peak performance
-            </p>
-          </div>
-
-          <div className="bg-onboarding-card-bg border border-onboarding-border-subtle rounded-lg backdrop-blur-sm p-6">
-            <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center mb-4">
-              <Heart className="h-6 w-6 text-white" />
-            </div>
-            <h3 className="text-onboarding-text-primary font-semibold text-lg mb-2">
-              Recovery Specialist
-            </h3>
-            <p className="text-onboarding-text-muted">
-              Injury prevention, mobility work, and recovery protocols tailored to your training load
-            </p>
-          </div>
-
-          <div className="bg-onboarding-card-bg border border-onboarding-border-subtle rounded-lg backdrop-blur-sm p-6">
-            <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mb-4">
-              <Dumbbell className="h-6 w-6 text-white" />
-            </div>
-            <h3 className="text-onboarding-text-primary font-semibold text-lg mb-2">Strength Coach</h3>
-            <p className="text-onboarding-text-muted">
-              Off-mat conditioning, strength training, and energy system development
-            </p>
-          </div>
-
-          <div className="bg-onboarding-card-bg border border-onboarding-border-subtle rounded-lg backdrop-blur-sm p-6">
-            <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-lg flex items-center justify-center mb-4">
-              <Trophy className="h-6 w-6 text-white" />
-            </div>
-            <h3 className="text-onboarding-text-primary font-semibold text-lg mb-2">
-              Competition Strategist
-            </h3>
-            <p className="text-onboarding-text-muted">
-              Game planning, match analysis, and competition-specific preparation
-            </p>
-          </div>
-
-          <div className="bg-onboarding-card-bg border border-onboarding-border-subtle rounded-lg backdrop-blur-sm p-6">
-            <div className="w-12 h-12 bg-gradient-to-r from-teal-500 to-blue-500 rounded-lg flex items-center justify-center mb-4">
-              <Users className="h-6 w-6 text-white" />
-            </div>
-            <h3 className="text-onboarding-text-primary font-semibold text-lg mb-2">
-              Supportive Friend
-            </h3>
-            <p className="text-onboarding-text-muted">
-              Positive reinforcement, motivation, and honest feedback to keep you on track
-            </p>
-          </div>
-        </div>
-      </section>
-
+      {/* top masthead */}
+      <div
+        className="absolute left-5 right-5 top-7 sm:left-[60px] sm:right-[60px] sm:top-[50px] flex justify-between gap-3 font-mono uppercase text-ink-soft"
+        style={{ fontSize: 10, letterSpacing: "0.2em" }}
+      >
+        <span>MatMind</span>
+        <span className="hidden md:inline">Established 2026 · Issue No. 001</span>
+        <span>For the practitioner</span>
       </div>
-    </UserProvider>
+
+      {/* left side rail — stacked roman numerals (V in red) */}
+      <div
+        className="hidden md:flex absolute left-[24px] lg:left-[80px] top-[120px] flex-col font-serif italic"
+        style={{
+          gap: 14,
+          fontSize: 40,
+          fontWeight: 400,
+          lineHeight: 1,
+          letterSpacing: "-0.02em",
+        }}
+      >
+        {ROMAN.map((r, i) => (
+          <span key={r} className={i === 4 ? "text-cinnabar" : "text-ink"}>
+            {r}
+          </span>
+        ))}
+      </div>
+
+      {/* right side rail — section labels */}
+      <div
+        className="hidden md:flex absolute right-[24px] lg:right-[80px] top-1/2 -translate-y-1/2 flex-col text-right font-mono uppercase"
+        style={{ gap: 22, fontSize: 9, letterSpacing: "0.22em" }}
+      >
+        {RINGS.map((label, i) => (
+          <span
+            key={label}
+            className={i === 4 ? "text-cinnabar" : "text-ink-soft"}
+          >
+            {label}
+          </span>
+        ))}
+      </div>
+
+      {/* center — eyebrow + wordmark + tagline + CTA */}
+      <div
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center px-4"
+        style={{ width: "min(760px, 100%)" }}
+      >
+        <div
+          className="font-mono uppercase text-ink-soft"
+          style={{
+            fontSize: "clamp(9px, 2.4vw, 11px)",
+            letterSpacing: "0.32em",
+            marginBottom: 30,
+          }}
+        >
+          ⎯⎯⎯⎯⎯ &nbsp; A handbook for the rolling life &nbsp; ⎯⎯⎯⎯⎯
+        </div>
+
+        <div className="relative inline-block">
+          <h1
+            className="m-0"
+            style={{
+              fontFamily: 'var(--font-serif-raw), "Times New Roman", Georgia, serif',
+              fontWeight: 300,
+              fontSize: "clamp(72px, 18vw, 168px)",
+              lineHeight: 0.92,
+              letterSpacing: "-0.04em",
+              fontVariationSettings: '"opsz" 144',
+            }}
+          >
+            <span style={{ display: "inline-block", transform: "skewX(-10deg)" }}>Mat</span>Mind
+          </h1>
+          <div
+            className="absolute bg-cinnabar rounded-full"
+            style={{
+              top: "7%",
+              right: "clamp(-28px, -3vw, -12px)",
+              width: "clamp(8px, 1.4vw, 12px)",
+              height: "clamp(8px, 1.4vw, 12px)",
+            }}
+          />
+        </div>
+
+        <div
+          className="font-serif italic mx-auto text-ink"
+          style={{
+            marginTop: 22,
+            fontSize: "clamp(15px, 3.6vw, 21px)",
+            fontWeight: 300,
+            lineHeight: 1.5,
+            maxWidth: 600,
+          }}
+        >
+          The plan you train, the mind you bring, and the body you keep — in
+          one journal, written in your own hand.
+        </div>
+
+        <div
+          className="flex justify-center items-center"
+          style={{ gap: 18, marginTop: 36 }}
+        >
+          <div className="bg-ink hidden sm:block" style={{ width: 64, height: 1 }} />
+          <div className="bg-ink sm:hidden" style={{ width: 32, height: 1 }} />
+          <span
+            className="font-mono uppercase text-ink-soft"
+            style={{ fontSize: 10, letterSpacing: "0.32em" }}
+          >
+            Begin
+          </span>
+          <div className="bg-ink hidden sm:block" style={{ width: 64, height: 1 }} />
+          <div className="bg-ink sm:hidden" style={{ width: 32, height: 1 }} />
+        </div>
+
+        <Link href="/login" className="inline-block" style={{ marginTop: 22 }}>
+          <button
+            className="bg-ink text-bone font-mono uppercase cursor-pointer hover:opacity-90 transition-opacity whitespace-nowrap px-7 py-3 sm:px-11 sm:py-[14px]"
+            style={{
+              fontSize: 12,
+              letterSpacing: "0.22em",
+              border: "none",
+            }}
+          >
+            Open the journal &nbsp; →
+          </button>
+        </Link>
+      </div>
+
+      {/* bottom rule */}
+      <div
+        className="absolute left-5 right-5 bottom-7 sm:left-[60px] sm:right-[60px] sm:bottom-[50px] flex justify-between gap-3 font-mono uppercase text-ink-soft"
+        style={{ fontSize: 10, letterSpacing: "0.2em" }}
+      >
+        <span className="hidden sm:inline">
+          I. Earth &nbsp; · &nbsp; II. Water &nbsp; · &nbsp; III. Fire &nbsp; ·
+          &nbsp; IV. Wind &nbsp; · &nbsp;{" "}
+          <span className="text-cinnabar">V. Void</span>
+        </span>
+        <span className="sm:hidden">
+          I · II · III · IV · <span className="text-cinnabar">V</span>
+        </span>
+        <span>—— five voices, one practice ——</span>
+      </div>
+    </div>
   );
 }

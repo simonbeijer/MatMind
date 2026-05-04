@@ -11,22 +11,24 @@ export async function middleware(request) {
     // Create CSP - relaxed for development, strict for production
     const isDevelopment = process.env.NODE_ENV === 'development';
     
-    const cspHeader = isDevelopment 
+    const cspHeader = isDevelopment
         ? `
             default-src 'self';
             script-src 'self' 'unsafe-eval' 'unsafe-inline' *.vercel-analytics.com *.vercel-insights.com;
-            style-src 'self' 'unsafe-inline';
+            style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+            style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com;
             img-src 'self' data: *.vercel.app;
-            font-src 'self' data:;
+            font-src 'self' data: https://fonts.gstatic.com;
             connect-src 'self' ws: wss: generativelanguage.googleapis.com;
             frame-ancestors 'none';
         `.replace(/\s{2,}/g, ' ').trim()
         : `
             default-src 'self';
             script-src 'self' 'unsafe-inline' *.vercel-analytics.com *.vercel-insights.com;
-            style-src 'self' 'unsafe-inline';
+            style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+            style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com;
             img-src 'self' data: *.vercel.app *.vercel-analytics.com;
-            font-src 'self' data:;
+            font-src 'self' data: https://fonts.gstatic.com;
             connect-src 'self' *.vercel-analytics.com *.vercel-insights.com generativelanguage.googleapis.com;
             frame-ancestors 'none';
         `.replace(/\s{2,}/g, ' ').trim();
