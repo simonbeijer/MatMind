@@ -15,8 +15,8 @@ const Label = ({
     <label
       htmlFor={htmlFor}
       className={cn(
-        "text-sm font-medium leading-none",
-        "text-onboarding-text-primary",
+        "block font-mono uppercase tracking-[0.18em] text-[11px] leading-none",
+        "text-onboarding-text-muted",
         "peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
         className
       )}

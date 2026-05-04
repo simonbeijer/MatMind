@@ -36,13 +36,12 @@ const Checkbox = ({
       <label
         htmlFor={id}
         className={cn(
-          "flex items-center justify-center h-4 w-4 shrink-0 rounded-sm border cursor-pointer",
+          "flex items-center justify-center h-4 w-4 shrink-0 border cursor-pointer",
           "border-onboarding-border-input bg-transparent",
-          "ring-offset-background transition-colors",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-onboarding-accent-end focus-visible:ring-offset-2",
-          "peer-checked:bg-onboarding-accent-end peer-checked:border-onboarding-accent-end peer-checked:text-onboarding-bg-primary",
+          "transition-colors",
+          "peer-checked:bg-cinnabar peer-checked:border-cinnabar peer-checked:text-onboarding-bg-primary",
           "peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
-          "hover:border-onboarding-accent-end/50",
+          "hover:border-onboarding-text-primary",
           className
         )}
       >

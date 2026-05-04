@@ -2,10 +2,6 @@
 import { useState } from "react";
 import Modal from "@/app/components/modal";
 import CustomButton from "@/app/components/button";
-import { 
-  ExclamationTriangleIcon,
-  InformationCircleIcon
-} from "@heroicons/react/24/outline";
 
 export default function TermsModal({ isOpen, onClose, showClose = true }) {
   const [termsAccepted, setTermsAccepted] = useState(false);
@@ -20,52 +16,49 @@ export default function TermsModal({ isOpen, onClose, showClose = true }) {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} showClose={showClose}>
-      <div className="max-w-4xl mx-auto space-y-6">
-        {/* Terms and Disclaimer Section */}
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-onboarding-text-primary mb-4">Terms of Use & Privacy Notice</h2>
-          
-          <div className="mb-4 bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 rounded-lg p-4 shadow-sm">
-            <div className="flex items-start space-x-3">
-              <ExclamationTriangleIcon className="h-5 w-5 text-red-500 mt-1 flex-shrink-0" />
-              <div className="text-sm text-left pt-1">
-                <p className="font-semibold text-red-800 mb-2">Important Disclaimer</p>
-                <p className="text-red-700">
-                  This application uses AI technology to generate training plans. Use at your own risk. 
-                  We bear no responsibility for the content generated, job application outcomes, or any consequences 
-                  arising from the use of this service. Always review and customize generated content before use.
-                </p>
-              </div>
-            </div>
+      <div className="space-y-7">
+        <div>
+          <div className="font-mono uppercase tracking-[0.2em] text-[10px] text-cinnabar mb-3">
+            ● Terms · Privacy
           </div>
-
-          <div className="mb-6 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-4 shadow-sm">
-            <div className="flex items-start space-x-3">
-              <InformationCircleIcon className="h-5 w-5 text-blue-500 mt-1 flex-shrink-0" />
-              <div className="text-sm text-left pt-1">
-                <p className="font-semibold text-blue-800 mb-2">AI Technology Notice</p>
-                <p className="text-blue-700">
-                  This service is powered by Google&apos;s Gemini AI. Your uploaded documents and generated content 
-                  may be processed by Google&apos;s systems according to their privacy policies. 
-                  Please avoid uploading sensitive personal information.
-                </p>
-              </div>
-            </div>
-          </div>
+          <h2 className="font-display uppercase tracking-[0.02em] text-3xl text-onboarding-text-primary leading-tight">
+            Before we begin.
+          </h2>
         </div>
 
-        {/* Consent Checkboxes */}
-        <div className="space-y-4 mb-6">
+        <div className="border border-onboarding-border-subtle bg-onboarding-bg-secondary p-5">
+          <div className="font-mono uppercase tracking-[0.2em] text-[10px] text-cinnabar mb-2">
+            §A / Disclaimer
+          </div>
+          <p className="font-serif text-sm text-onboarding-text-primary leading-snug">
+            This application uses AI to generate training plans. Use at your own risk.
+            We bear no responsibility for the content generated, training outcomes, or any consequences
+            arising from the use of this service. Always review and customize generated content before use.
+          </p>
+        </div>
+
+        <div className="border border-onboarding-border-subtle bg-onboarding-bg-secondary p-5">
+          <div className="font-mono uppercase tracking-[0.2em] text-[10px] text-cinnabar mb-2">
+            §B / AI notice
+          </div>
+          <p className="font-serif text-sm text-onboarding-text-primary leading-snug">
+            This service is powered by Google&apos;s Gemini AI. Your inputs and generated content
+            may be processed by Google&apos;s systems according to their privacy policies.
+            Avoid uploading sensitive personal information.
+          </p>
+        </div>
+
+        <div className="space-y-4 border-t border-onboarding-border-subtle pt-6">
           <label className="flex items-start space-x-3 cursor-pointer">
             <input
               type="checkbox"
               checked={termsAccepted}
               onChange={(e) => setTermsAccepted(e.target.checked)}
-              className="mt-1 w-4 h-4 text-onboarding-accent-end bg-onboarding-card-bg border-onboarding-border-input rounded focus:ring-onboarding-accent-end focus:ring-2"
+              className="mt-1 w-4 h-4 accent-cinnabar"
             />
-            <span className="text-sm text-onboarding-text-primary">
-              I agree to the Terms of Service and acknowledge that this is an experimental AI tool. 
-              I understand the limitations and disclaimers stated above.
+            <span className="font-serif text-sm text-onboarding-text-primary leading-snug">
+              I agree to the Terms of Service and acknowledge this is an experimental AI tool.
+              I understand the limitations and disclaimers above.
             </span>
           </label>
 
@@ -74,23 +67,20 @@ export default function TermsModal({ isOpen, onClose, showClose = true }) {
               type="checkbox"
               checked={gdprAccepted}
               onChange={(e) => setGdprAccepted(e.target.checked)}
-              className="mt-1 w-4 h-4 text-onboarding-accent-end bg-onboarding-card-bg border-onboarding-border-input rounded focus:ring-onboarding-accent-end focus:ring-2"
+              className="mt-1 w-4 h-4 accent-cinnabar"
             />
-            <span className="text-sm text-onboarding-text-primary">
-              I consent to the processing of my data as described above and understand that my documents 
+            <span className="font-serif text-sm text-onboarding-text-primary leading-snug">
+              I consent to the processing of my data as described and understand that my inputs
               will be processed by AI systems for the purpose of generating training plans.
             </span>
           </label>
         </div>
 
-        {/* Accept Button */}
-        <div className="text-center">
-          <CustomButton
-            text={termsAccepted && gdprAccepted ? "Accept & Continue" : "Please accept terms to continue"}
-            callBack={handleAcceptTerms}
-            disabled={!termsAccepted || !gdprAccepted}
-          />
-        </div>
+        <CustomButton
+          text={termsAccepted && gdprAccepted ? "Accept & continue" : "Accept terms above"}
+          callBack={handleAcceptTerms}
+          disabled={!termsAccepted || !gdprAccepted}
+        />
       </div>
     </Modal>
   );

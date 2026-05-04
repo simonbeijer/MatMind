@@ -32,12 +32,12 @@ const Select = ({
         onChange={handleChange}
         disabled={disabled}
         className={cn(
-          "w-full h-10 appearance-none rounded-md border px-3 py-2 text-sm",
-          "bg-onboarding-card-bg border-onboarding-border-input",
+          "w-full h-11 appearance-none border px-3 py-2 text-sm",
+          "bg-onboarding-bg-secondary border-onboarding-border-input",
           "text-onboarding-text-primary",
-          "focus:outline-none focus:ring-2 focus:ring-onboarding-accent-end focus:ring-offset-0",
+          "focus:outline-none focus:border-onboarding-text-primary",
           "disabled:cursor-not-allowed disabled:opacity-50",
-          "pr-8", // space for chevron
+          "pr-8",
           className
         )}
         {...props}

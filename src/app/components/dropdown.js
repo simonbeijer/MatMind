@@ -17,27 +17,32 @@ export default function Dropdown({ user, logoutUser }) {
 
   return (
     <div className="relative">
-      <button 
-        className="flex items-center p-2 rounded-full hover:bg-onboarding-hover-bg transition-colors duration-200" 
+      <button
+        className="flex items-center p-1.5 hover:bg-onboarding-hover-bg transition-colors duration-150"
         onClick={toggleDropdown}
       >
-        <UserCircleIcon className="h-8 w-8 text-onboarding-text-muted"></UserCircleIcon>
+        <UserCircleIcon className="h-7 w-7 text-onboarding-text-muted" />
       </button>
       <div
-        className={`transition-all duration-300 transform absolute right-0 mt-2 p-4 border rounded-lg shadow-lg text-right bg-onboarding-card-bg text-onboarding-text-primary border-onboarding-border-subtle min-w-[150px] ${
+        className={`transition-all duration-150 transform absolute right-0 mt-2 p-4 border bg-onboarding-bg-secondary text-onboarding-text-primary border-onboarding-border-subtle min-w-[180px] text-right ${
           isOpen
-            ? "opacity-100 scale-100"
-            : "opacity-0 scale-95 pointer-events-none"
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 -translate-y-1 pointer-events-none"
         }`}
       >
         {user ? (
           <>
-            <p className="text-sm font-medium mb-2">{user.name}</p>
+            <p className="font-mono uppercase tracking-[0.15em] text-[10px] text-onboarding-text-muted mb-1">
+              Signed in as
+            </p>
+            <p className="font-display uppercase tracking-[0.04em] text-sm mb-3 truncate">
+              {user.name}
+            </p>
             <button
-              className="text-sm text-onboarding-accent-end hover:text-onboarding-accent-end/80 font-medium transition-colors duration-200"
+              className="font-mono uppercase tracking-[0.18em] text-[11px] text-cinnabar hover:opacity-80 transition-opacity"
               onClick={logoutUser}
             >
-              Logout
+              Log out →
             </button>
           </>
         ) : (

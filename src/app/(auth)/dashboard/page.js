@@ -3,7 +3,25 @@ import { useState, useEffect } from "react";
 import { useUserContext } from "@/app/context/userContext";
 import TermsModal from "@/app/components/termsModal";
 import Link from "next/link";
-import { Zap } from "lucide-react";
+import { ArrowRight, Mail, MapPin, Calendar } from "lucide-react";
+
+const STEPS = [
+  {
+    n: "01",
+    title: "Share your profile",
+    body: "Belt rank, body type, training frequency, current challenges.",
+  },
+  {
+    n: "02",
+    title: "Set your goals",
+    body: "Compete better, train smarter, or develop specific positions.",
+  },
+  {
+    n: "03",
+    title: "Receive your plan",
+    body: "Personalized drills, mindset work, and recovery protocols.",
+  },
+];
 
 export default function Dashboard() {
   const [showTermsModal, setShowTermsModal] = useState(false);
@@ -11,158 +29,115 @@ export default function Dashboard() {
 
   useEffect(() => {
     const termsAccepted = localStorage.getItem('matmind-terms-accepted');
-    if (!termsAccepted) {
-      setShowTermsModal(true);
-    }
+    if (!termsAccepted) setShowTermsModal(true);
   }, []);
 
-  const closeTermsModal = () => {
-    setShowTermsModal(false);
-  };
-
+  const closeTermsModal = () => setShowTermsModal(false);
 
   return (
-    <div className="min-h-[calc(100vh-3rem)] bg-gradient-to-br from-onboarding-bg-primary via-onboarding-bg-secondary to-onboarding-bg-primary flex flex-col overflow-y-auto">
+    <div className="min-h-[calc(100vh-3rem)] bg-onboarding-bg-primary">
       <TermsModal isOpen={showTermsModal} onClose={closeTermsModal} showClose={false} />
-      
-      <div className="flex-1 w-full max-w-4xl mx-auto p-4">
-        <div className="mb-4">
-          <h1 className="text-3xl font-bold text-onboarding-text-primary mb-2">Welcome back!</h1>
-          <p className="text-onboarding-text-muted">Here&apos;s your user information and dashboard overview.</p>
+
+      <div className="max-w-4xl mx-auto px-6 py-12">
+        <div className="mb-12">
+          <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-onboarding-text-muted mb-3">
+            <span className="text-cinnabar">●</span> Dojo / Dashboard
+          </div>
+          <h1 className="font-display uppercase tracking-[0.02em] text-4xl md:text-5xl leading-tight text-onboarding-text-primary">
+            Welcome back.
+          </h1>
         </div>
 
-        {/* New Layout - User Info on top left, How It Works tall on right */}
-        <div className="grid lg:grid-cols-3 gap-6">
-          {/* User Information - Takes 2 columns, top row */}
-          <div className="lg:col-span-2">
-            <div className="bg-onboarding-card-bg rounded-lg shadow-sm border border-onboarding-border-subtle p-6 backdrop-blur-sm">
-              <div className="flex items-center gap-3 mb-6">
-                <svg className="w-5 h-5 text-onboarding-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                <h2 className="text-xl font-semibold text-onboarding-text-primary">User Information</h2>
-              </div>
-
-              <div className="flex items-start gap-6 mb-6">
-                <div className="w-16 h-16 bg-onboarding-accent-start/20 border-2 border-onboarding-accent-start/40 rounded-full flex items-center justify-center text-onboarding-text-primary font-semibold text-lg">
-                  JD
-                </div>
-                <div className="flex flex-col gap-2">
-                  <h3 className="text-xl font-semibold text-onboarding-text-primary">{user?.name || 'Alice'}</h3>
-                  <span className="inline-block bg-onboarding-accent-start/20 text-onboarding-accent-start border border-onboarding-accent-start/30 text-sm px-3 py-1 rounded-full font-medium w-fit">
-                    Active
-                  </span>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-onboarding-bg-secondary/20 border border-onboarding-border-subtle rounded-lg p-4">
-                  <div className="flex items-center gap-3 mb-2">
-                    <svg className="w-4 h-4 text-onboarding-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                    <span className="font-semibold text-onboarding-text-primary text-sm">Email</span>
-                  </div>
-                  <p className="text-onboarding-text-primary text-sm">{user?.email || 'user@example.com'}</p>
-                </div>
-
-                <div className="bg-onboarding-bg-secondary/20 border border-onboarding-border-subtle rounded-lg p-4">
-                  <div className="flex items-center gap-3 mb-2">
-                    <svg className="w-4 h-4 text-onboarding-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    <span className="font-semibold text-onboarding-text-primary text-sm">Location</span>
-                  </div>
-                  <p className="text-onboarding-text-primary text-sm">Gothenberg, SE</p>
-                </div>
-
-                <div className="bg-onboarding-bg-secondary/20 border border-onboarding-border-subtle rounded-lg p-4">
-                  <div className="flex items-center gap-3 mb-2">
-                    <svg className="w-4 h-4 text-onboarding-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <span className="font-semibold text-onboarding-text-primary text-sm">Member Since</span>
-                  </div>
-                  <p className="text-onboarding-text-primary text-sm">January 2024</p>
-                </div>
-              </div>
+        <div className="grid lg:grid-cols-3 gap-px bg-onboarding-border-subtle border border-onboarding-border-subtle mb-px">
+          <div className="lg:col-span-2 bg-onboarding-bg-primary p-8">
+            <div className="font-mono uppercase tracking-[0.18em] text-[11px] text-onboarding-text-muted mb-6">
+              §01 / Profile
             </div>
-          </div>
 
-          {/* How It Works Section - Takes 1 column, spans both rows */}
-          <div className="lg:row-span-2">
-            <div className="bg-onboarding-card-bg rounded-lg shadow-sm border border-onboarding-border-subtle p-6 backdrop-blur-sm h-full">
-              <div className="text-center mb-8">
-                <h2 className="text-2xl font-bold text-onboarding-text-primary mb-4">
-                  How It Works
+            <div className="flex items-start gap-5 mb-8 pb-8 border-b border-onboarding-border-subtle">
+              <div className="w-14 h-14 bg-cinnabar text-onboarding-bg-primary flex items-center justify-center font-display tracking-[0.05em] text-lg">
+                {(user?.name || 'A')[0].toUpperCase()}
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <h2 className="font-display uppercase tracking-[0.03em] text-xl text-onboarding-text-primary">
+                  {user?.name || 'Alice'}
                 </h2>
-                <p className="text-onboarding-text-muted">
-                  Simple 3-step process to get your personalized plan
-                </p>
-              </div>
-
-              <div className="space-y-8">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-onboarding-accent-start to-onboarding-accent-end rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-onboarding-bg-primary font-bold">1</span>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-onboarding-text-primary mb-2">
-                      Share Your Profile
-                    </h3>
-                    <p className="text-onboarding-text-muted text-sm">
-                      Tell us about your belt rank, body type, training frequency, and current challenges
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-onboarding-accent-start to-onboarding-accent-end rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-onboarding-bg-primary font-bold">2</span>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-onboarding-text-primary mb-2">
-                      Set Your Goals
-                    </h3>
-                    <p className="text-onboarding-text-muted text-sm">
-                      Define what you want to achieve - compete better, train smarter, or develop specific skills
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-onboarding-accent-start to-onboarding-accent-end rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-onboarding-bg-primary font-bold">3</span>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-onboarding-text-primary mb-2">
-                      Get Your Plan
-                    </h3>
-                    <p className="text-onboarding-text-muted text-sm">
-                      Receive a comprehensive, personalized plan with drills, mindset work, and recovery protocols
-                    </p>
-                  </div>
-                </div>
+                <span className="font-mono uppercase tracking-[0.18em] text-[10px] text-cinnabar">
+                  ● Active
+                </span>
               </div>
             </div>
+
+            <dl className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <dt className="flex items-center gap-2 font-mono uppercase tracking-[0.18em] text-[11px] text-onboarding-text-muted mb-1.5">
+                  <Mail className="w-3 h-3" strokeWidth={1.5} />
+                  Email
+                </dt>
+                <dd className="font-mono text-sm text-onboarding-text-primary break-all">
+                  {user?.email || 'user@example.com'}
+                </dd>
+              </div>
+              <div>
+                <dt className="flex items-center gap-2 font-mono uppercase tracking-[0.18em] text-[11px] text-onboarding-text-muted mb-1.5">
+                  <MapPin className="w-3 h-3" strokeWidth={1.5} />
+                  Location
+                </dt>
+                <dd className="font-mono text-sm text-onboarding-text-primary">
+                  Gothenberg, SE
+                </dd>
+              </div>
+              <div>
+                <dt className="flex items-center gap-2 font-mono uppercase tracking-[0.18em] text-[11px] text-onboarding-text-muted mb-1.5">
+                  <Calendar className="w-3 h-3" strokeWidth={1.5} />
+                  Member since
+                </dt>
+                <dd className="font-mono text-sm text-onboarding-text-primary">
+                  Jan 2024
+                </dd>
+              </div>
+            </dl>
           </div>
 
-          {/* CTA Section - Under User Information, same width */}
-          <div className="lg:col-span-2">
-            <div className="bg-gradient-to-r from-onboarding-accent-end/20 to-onboarding-accent-start/20 rounded-3xl p-8 text-center border border-onboarding-border-subtle">
-              <h2 className="text-4xl font-bold text-onboarding-text-primary mb-6">
-                Ready to Transform Your Game?
-              </h2>
-              <p className="text-onboarding-text-muted text-lg mb-8 max-w-2xl mx-auto">
-                Join hundreds of grapplers who are already training smarter with AI-powered personalized plans
-              </p>
-              <Link href="/onboarding">
-                <button className="bg-gradient-to-r from-onboarding-accent-end to-onboarding-accent-start hover:from-onboarding-accent-end/80 hover:to-onboarding-accent-start/80 text-onboarding-bg-primary text-lg px-8 py-3 rounded-md transition-colors inline-flex items-center">
-                  Start Your Journey <Zap className="ml-2 h-5 w-5" />
-                </button>
-              </Link>
+          <div className="lg:row-span-2 bg-onboarding-bg-primary p-8">
+            <div className="font-mono uppercase tracking-[0.18em] text-[11px] text-onboarding-text-muted mb-6">
+              §02 / How it works
             </div>
+
+            <ol className="space-y-7">
+              {STEPS.map(({ n, title, body }) => (
+                <li key={n} className="flex items-start gap-4">
+                  <span className="font-display tracking-[0.05em] text-2xl text-cinnabar leading-none mt-0.5">
+                    {n}
+                  </span>
+                  <div>
+                    <h3 className="font-display uppercase tracking-[0.04em] text-base text-onboarding-text-primary mb-1">
+                      {title}
+                    </h3>
+                    <p className="font-serif text-sm text-onboarding-text-muted leading-snug">
+                      {body}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <div className="lg:col-span-2 bg-onboarding-bg-secondary p-10 flex flex-col items-start gap-5">
+            <div className="font-mono uppercase tracking-[0.2em] text-[11px] text-onboarding-text-muted">
+              §03 / Begin
+            </div>
+            <h2 className="font-display uppercase tracking-[0.02em] text-3xl md:text-4xl leading-tight text-onboarding-text-primary max-w-md">
+              Ready to transform your game?
+            </h2>
+            <p className="font-serif text-base text-onboarding-text-muted leading-snug max-w-md">
+              Hundreds of grapplers train smarter with personalized plans. Your turn.
+            </p>
+            <Link href="/onboarding">
+              <button className="bg-cinnabar text-onboarding-bg-primary font-mono uppercase tracking-[0.18em] text-xs px-6 py-3.5 inline-flex items-center gap-3 hover:opacity-90 transition-opacity">
+                Start your journey <ArrowRight className="h-3.5 w-3.5" />
+              </button>
+            </Link>
           </div>
         </div>
       </div>

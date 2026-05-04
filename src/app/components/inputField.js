@@ -62,9 +62,9 @@ export default function InputField({
   const { validate: _, sanitize: __, ...inputProps } = props;
 
   return (
-    <div className="mb-4">
-      <label htmlFor={name} className="block text-sm font-medium text-onboarding-text-primary mb-2">
-        {label} {required && <span className="text-red-500">*</span>}
+    <div className="mb-5">
+      <label htmlFor={name} className="block font-mono uppercase tracking-[0.18em] text-[11px] text-onboarding-text-muted mb-2">
+        {label} {required && <span className="text-cinnabar">*</span>}
       </label>
       <input
         id={name}
@@ -77,13 +77,13 @@ export default function InputField({
         maxLength={maxLength}
         aria-invalid={displayError ? 'true' : 'false'}
         aria-describedby={displayError ? `${name}-error` : undefined}
-        className={`w-full px-4 py-3 border rounded-lg bg-onboarding-bg-secondary text-onboarding-text-primary placeholder:text-onboarding-text-subtle transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-onboarding-accent-end [&:-webkit-autofill]:!bg-onboarding-bg-secondary [&:-webkit-autofill]:!text-onboarding-text-primary [&:-webkit-autofill:focus]:!bg-onboarding-bg-secondary ${
-          displayError ? "border-red-500" : "border-onboarding-border-input"
+        className={`w-full px-4 py-3 border bg-onboarding-bg-secondary text-onboarding-text-primary placeholder:text-onboarding-text-subtle transition-colors duration-150 focus:outline-none focus:border-onboarding-text-primary [&:-webkit-autofill]:!bg-onboarding-bg-secondary [&:-webkit-autofill]:!text-onboarding-text-primary [&:-webkit-autofill:focus]:!bg-onboarding-bg-secondary ${
+          displayError ? "border-cinnabar" : "border-onboarding-border-input"
         }`}
         {...inputProps}
       />
       {displayError && (
-        <div id={`${name}-error`} className="mt-1 text-sm text-red-500" role="alert">
+        <div id={`${name}-error`} className="mt-1.5 font-mono uppercase tracking-[0.1em] text-[11px] text-cinnabar" role="alert">
           {error || localError}
         </div>
       )}

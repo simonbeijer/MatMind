@@ -3,17 +3,17 @@ import { usePathname } from "next/navigation";
 
 export default function ConditionalFooter() {
   const pathname = usePathname();
-  
-  // Hide footer on login page
-  if (pathname === "/login") {
-    return null;
-  }
+
+  if (pathname === "/login" || pathname === "/") return null;
 
   return (
-    <footer className="border-t border-onboarding-border-subtle bg-onboarding-bg-primary/80 backdrop-blur-sm">
-      <div className="container mx-auto px-4 py-8 text-center">
-        <p className="text-onboarding-text-muted">
-          &copy; 2025 MatMind. Built for grapplers, by grapplers.
+    <footer className="border-t border-onboarding-border-subtle bg-onboarding-bg-primary mt-auto">
+      <div className="max-w-3xl mx-auto px-6 py-8 flex items-center justify-between flex-wrap gap-4">
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-onboarding-text-muted">
+          © 2025 Mat Mind / Built for grapplers, by grapplers.
+        </p>
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-onboarding-text-muted">
+          v0.1 — beta
         </p>
       </div>
     </footer>

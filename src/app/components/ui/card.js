@@ -8,8 +8,7 @@ const cn = (...classes) => {
 const Card = ({ className, children, ...props }) => (
   <div
     className={cn(
-      "rounded-lg border backdrop-blur-sm shadow-lg",
-      "bg-onboarding-card-bg border-onboarding-border-subtle",
+      "border bg-onboarding-bg-secondary border-onboarding-border-subtle",
       className
     )}
     {...props}
@@ -30,7 +29,7 @@ const CardHeader = ({ className, children, ...props }) => (
 const CardTitle = ({ className, children, ...props }) => (
   <h3
     className={cn(
-      "text-2xl font-semibold leading-none tracking-tight",
+      "font-display uppercase tracking-[0.03em] text-2xl leading-tight",
       "text-onboarding-text-primary",
       className
     )}
@@ -43,7 +42,7 @@ const CardTitle = ({ className, children, ...props }) => (
 const CardDescription = ({ className, children, ...props }) => (
   <p
     className={cn(
-      "text-sm text-onboarding-text-muted",
+      "font-serif text-base text-onboarding-text-muted leading-snug",
       className
     )}
     {...props}

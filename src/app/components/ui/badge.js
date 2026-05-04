@@ -8,7 +8,7 @@ const cn = (...classes) => {
 const Badge = ({ className, children, ...props }) => (
   <span
     className={cn(
-      "inline-flex items-center rounded-full px-3 py-1 text-xs font-medium",
+      "inline-flex items-center px-2 py-0.5 font-mono uppercase tracking-[0.15em] text-[10px]",
       "border",
       className
     )}

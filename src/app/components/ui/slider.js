@@ -35,7 +35,7 @@ const Slider = ({
         step={step}
         disabled={disabled}
         className={cn(
-          "w-full h-2 rounded-lg appearance-none cursor-pointer slider-track",
+          "w-full h-2 rounded-none appearance-none cursor-pointer slider-track",
           "bg-onboarding-bg-secondary",
           "focus:outline-none focus:ring-2 focus:ring-onboarding-accent-end focus:ring-offset-2",
           "disabled:cursor-not-allowed disabled:opacity-50"
@@ -50,21 +50,19 @@ const Slider = ({
           appearance: none;
           width: 16px;
           height: 16px;
-          border-radius: 50%;
-          background: linear-gradient(to right, var(--onboarding-accent-start), var(--onboarding-accent-end));
+          border-radius: 0;
+          background: var(--cinnabar);
           cursor: pointer;
           border: none;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
-        
+
         .slider-track::-moz-range-thumb {
           width: 16px;
           height: 16px;
-          border-radius: 50%;
-          background: linear-gradient(to right, var(--onboarding-accent-start), var(--onboarding-accent-end));
+          border-radius: 0;
+          background: var(--cinnabar);
           cursor: pointer;
           border: none;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         
         .slider-track::-webkit-slider-track {

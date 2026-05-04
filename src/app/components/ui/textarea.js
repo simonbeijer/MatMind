@@ -14,14 +14,13 @@ const Textarea = ({
     <textarea
       rows={rows}
       className={cn(
-        "flex min-h-[80px] w-full rounded-md border px-3 py-2 text-sm",
-        "bg-onboarding-card-bg border-onboarding-border-input",
+        "flex min-h-[88px] w-full border px-3 py-2.5 text-sm",
+        "bg-onboarding-bg-secondary border-onboarding-border-input",
         "text-onboarding-text-primary",
         "placeholder:text-onboarding-text-subtle",
-        "ring-offset-background",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-onboarding-accent-end focus-visible:ring-offset-2",
+        "focus-visible:outline-none focus-visible:border-onboarding-text-primary",
         "disabled:cursor-not-allowed disabled:opacity-50",
-        "resize-none", // Prevent manual resizing for consistent design
+        "resize-none",
         className
       )}
       {...props}

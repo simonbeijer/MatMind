@@ -174,63 +174,55 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-onboarding-bg-primary via-onboarding-bg-secondary to-onboarding-bg-primary">
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-2xl mx-auto">
-          {/* Progress */}
-          <div className="mb-8">
-            <div className="flex justify-between text-sm text-onboarding-text-muted mb-2">
-              <span>Progress</span>
-              <span>{Math.round(progress)}% Complete</span>
-            </div>
-            <Progress value={progress} className="h-2" />
+    <div className="min-h-screen bg-onboarding-bg-primary">
+      <div className="max-w-2xl mx-auto px-6 py-12">
+        <div className="mb-10">
+          <div className="flex justify-between items-baseline mb-3">
+            <span className="font-mono uppercase tracking-[0.2em] text-[11px] text-onboarding-text-muted">
+              §0{currentStep} / {String(totalSteps).padStart(2, "0")}
+            </span>
+            <span className="font-mono uppercase tracking-[0.2em] text-[11px] text-onboarding-text-muted">
+              {Math.round(progress)}%
+            </span>
+          </div>
+          <Progress value={progress} />
+        </div>
+
+        <div className="border border-onboarding-border-subtle bg-onboarding-bg-secondary">
+          <header className="px-8 py-7 border-b border-onboarding-border-subtle">
+            <h1 className="font-display uppercase tracking-[0.03em] text-2xl leading-tight text-onboarding-text-primary mb-2">
+              {getStepTitle()}
+            </h1>
+            <p className="font-serif text-base text-onboarding-text-muted leading-snug">
+              {getStepDescription()}
+            </p>
+          </header>
+
+          <div className="px-8 py-8 space-y-6">
+            {currentStep === 1 && <ProfileStep profile={profile} updateProfile={updateProfile} />}
+            {currentStep === 2 && <GoalsStep profile={profile} updateProfile={updateProfile} />}
+            {currentStep === 3 && <FocusStep profile={profile} updateProfile={updateProfile} />}
           </div>
 
-          {/* Main Card */}
-          <Card className="backdrop-blur-sm">
-            <CardHeader className="text-center">
-              <CardTitle className="text-2xl">
-                {getStepTitle()}
-              </CardTitle>
-              <CardDescription>
-                {getStepDescription()}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {currentStep === 1 && <ProfileStep profile={profile} updateProfile={updateProfile} />}
-              {currentStep === 2 && <GoalsStep profile={profile} updateProfile={updateProfile} />}
-              {currentStep === 3 && <FocusStep profile={profile} updateProfile={updateProfile} />}
+          <div className="px-8 py-6 border-t border-onboarding-border-subtle flex justify-between items-center">
+            <button
+              onClick={handleBack}
+              disabled={currentStep === 1}
+              className="inline-flex items-center gap-2 font-mono uppercase tracking-[0.18em] text-[11px] text-onboarding-text-muted hover:text-onboarding-text-primary disabled:opacity-30 disabled:pointer-events-none transition-colors"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              Back
+            </button>
 
-              {/* Navigation */}
-              <div className="flex justify-between pt-6">
-                <button
-                  onClick={handleBack}
-                  disabled={currentStep === 1}
-                  className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-onboarding-accent-end disabled:pointer-events-none disabled:opacity-50 border border-onboarding-border-input text-onboarding-text-primary hover:bg-onboarding-hover-bg bg-transparent h-10 px-4 py-2"
-                >
-                  <ArrowLeft className="mr-2 h-4 w-4" />
-                  Back
-                </button>
-
-                <button
-                  onClick={handleNext}
-                  disabled={!isStepValid() || isGenerating}
-                  className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-onboarding-accent-end disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-r from-onboarding-accent-start to-onboarding-accent-end hover:from-onboarding-accent-start/80 hover:to-onboarding-accent-end/80 text-onboarding-bg-primary h-10 px-4 py-2"
-                >
-                  {isGenerating ? (
-                    "Generating Plan..."
-                  ) : currentStep === totalSteps ? (
-                    "Generate My Plan"
-                  ) : (
-                    <>
-                      Next
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </>
-                  )}
-                </button>
-              </div>
-            </CardContent>
-          </Card>
+            <button
+              onClick={handleNext}
+              disabled={!isStepValid() || isGenerating}
+              className="inline-flex items-center gap-2 bg-cinnabar text-onboarding-bg-primary font-mono uppercase tracking-[0.18em] text-[11px] px-6 py-3 hover:opacity-90 disabled:opacity-40 disabled:pointer-events-none transition-opacity"
+            >
+              {isGenerating ? "Generating…" : currentStep === totalSteps ? "Generate plan" : "Next"}
+              {!isGenerating && currentStep !== totalSteps && <ArrowRight className="h-3.5 w-3.5" />}
+            </button>
+          </div>
         </div>
       </div>
     </div>

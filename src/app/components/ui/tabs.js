@@ -34,8 +34,8 @@ const Tabs = ({ defaultValue, value, onValueChange, children, className, ...prop
 const TabsList = ({ className, children, ...props }) => (
   <div
     className={cn(
-      "inline-flex h-10 items-center justify-center rounded-md p-1",
-      "bg-onboarding-card-bg border border-onboarding-border-subtle",
+      "inline-flex items-center justify-center",
+      "border-b border-onboarding-border-subtle",
       className
     )}
     {...props}
@@ -55,11 +55,12 @@ const TabsTrigger = ({ value, className, children, ...props }) => {
   return (
     <button
       className={cn(
-        "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium",
-        "ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        "inline-flex items-center justify-center whitespace-nowrap px-4 py-3 font-mono uppercase tracking-[0.15em] text-[11px]",
+        "border-b-2 -mb-px transition-colors",
         "disabled:pointer-events-none disabled:opacity-50",
-        "text-onboarding-text-primary hover:bg-onboarding-hover-bg",
-        isActive && "bg-onboarding-hover-bg",
+        isActive
+          ? "border-cinnabar text-onboarding-text-primary"
+          : "border-transparent text-onboarding-text-muted hover:text-onboarding-text-primary",
         className
       )}
       onClick={() => context.onValueChange(value)}

@@ -3,7 +3,6 @@ import { useRouter, usePathname } from "next/navigation";
 import { useUserContext } from "../context/userContext";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import Dropdown from "./dropdown";
 
 export default function Header({ 
@@ -50,43 +49,50 @@ export default function Header({
     }
   };
   return (
-    <header className="border-b border-onboarding-border-subtle bg-onboarding-bg-primary/80 backdrop-blur-sm">
-      <div className="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
-        <Link href="/" className="flex items-center space-x-2">
-          <Image
-            src="/mat-mind-icon.png"
-            alt="MatMind Logo"
-            width={52}
-            height={52}
-            className="w-[52px] h-[52px] mr-4"
+    <header className="border-b border-ink-line bg-bone">
+      <div className="max-w-3xl mx-auto px-6 py-5 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-3 group" aria-label="MatMind home">
+          <span
+            className="block rounded-full bg-cinnabar"
+            style={{ width: 10, height: 10 }}
+            aria-hidden
           />
-          <span className="text-onboarding-text-primary font-bold text-xl">
-            MatMind
+          <span
+            className="font-serif italic text-ink"
+            style={{ fontSize: 22, fontWeight: 400, letterSpacing: "-0.01em", lineHeight: 1 }}
+          >
+            Mat<span className="not-italic">Mind</span>
           </span>
         </Link>
-        
-        <div className="flex items-center space-x-4">
+
+        <div className="flex items-center gap-6">
           {showNavigation && (
-            <nav className="flex items-center gap-4">
-              <Link href="/dashboard" className="text-onboarding-text-primary hover:text-onboarding-accent-end font-medium transition-colors">
+            <nav className="flex items-center gap-6">
+              <Link
+                href="/dashboard"
+                className="font-mono uppercase tracking-[0.15em] text-xs text-ink-soft hover:text-ink transition-colors"
+              >
                 Dashboard
               </Link>
-              <Link href="/onboarding" className="text-onboarding-text-primary hover:text-onboarding-accent-end font-medium transition-colors">
+              <Link
+                href="/onboarding"
+                className="font-mono uppercase tracking-[0.15em] text-xs text-ink-soft hover:text-ink transition-colors"
+              >
                 Onboard
               </Link>
             </nav>
           )}
-          
+
           {showAuth && user && (
             <div>
               <Dropdown logoutUser={logoutUser} user={user} />
             </div>
           )}
-          
+
           {isHomepage && (
             <Link href="/login">
-              <button className="bg-gradient-to-r from-onboarding-accent-start to-onboarding-accent-end hover:from-onboarding-accent-start/80 hover:to-onboarding-accent-end/80 text-onboarding-bg-primary px-4 py-2 rounded-md transition-colors">
-                Get Started
+              <button className="font-mono uppercase tracking-[0.15em] text-xs bg-cinnabar text-bone px-4 py-2.5 hover:opacity-90 transition-opacity">
+                Get started
               </button>
             </Link>
           )}

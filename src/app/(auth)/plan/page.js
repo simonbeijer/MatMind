@@ -1,25 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/app/components/ui/card"
-import { Badge } from "@/app/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/app/components/ui/tabs"
-import { Separator } from "@/app/components/ui/separator"
-import {
-  User,
-  Brain,
-  Heart,
-  Dumbbell,
-  Trophy,
-  Users,
-  Download,
-  Share2,
-  RefreshCw,
-  Target,
-  Clock,
-  Zap,
-} from "lucide-react"
 import Link from "next/link"
+import { Download, Share2, RefreshCw, ArrowLeft } from "lucide-react"
 import { generateTrainingPlan } from "@/app/lib/ai-service"
 import BetaNoticeModal from "@/app/components/betaNoticeModal"
 
@@ -30,26 +13,11 @@ export default function PlanPage() {
   const [error, setError] = useState(null)
   const [showBetaNotice, setShowBetaNotice] = useState(false)
 
-  // Validation function to check if onboarding is complete
   const isOnboardingComplete = (profile) => {
     if (!profile) return false
-    
-    // Step 1 requirements: Profile data
-    const hasProfileData = profile.beltRank && 
-                          profile.age && 
-                          profile.trainingFrequency && 
-                          profile.weight
-    
-    // Step 2 requirements: Goals data  
-    const hasGoalsData = profile.primaryGoal && 
-                        profile.specificGoals && 
-                        profile.specificGoals.length > 0 && 
-                        profile.timeframe
-    
-    // Step 3 requirements: Focus areas
-    const hasFocusData = profile.focusAreas && 
-                        profile.focusAreas.length > 0
-    
+    const hasProfileData = profile.beltRank && profile.age && profile.trainingFrequency && profile.weight
+    const hasGoalsData = profile.primaryGoal && profile.specificGoals?.length > 0 && profile.timeframe
+    const hasFocusData = profile.focusAreas?.length > 0
     return hasProfileData && hasGoalsData && hasFocusData
   }
 
@@ -64,8 +32,7 @@ export default function PlanPage() {
         }
 
         const userProfile = JSON.parse(storedProfile)
-        
-        // Validate that onboarding is actually complete
+
         if (!isOnboardingComplete(userProfile)) {
           setError("Your profile is incomplete. Please complete the onboarding process to get your personalized plan.")
           setIsLoading(false)
@@ -73,8 +40,6 @@ export default function PlanPage() {
         }
 
         setProfile(userProfile)
-
-        // Generate the training plan using AI
         const generatedPlan = await generateTrainingPlan(userProfile)
         setPlan(generatedPlan)
         setShowBetaNotice(true)
@@ -110,20 +75,21 @@ export default function PlanPage() {
     }
   }
 
-  const closeBetaNotice = () => {
-    setShowBetaNotice(false)
-  }
+  const closeBetaNotice = () => setShowBetaNotice(false)
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-onboarding-bg-primary via-onboarding-bg-secondary to-onboarding-bg-primary flex items-center justify-center">
+      <div className="min-h-screen bg-onboarding-bg-primary flex items-center justify-center px-6">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-onboarding-accent-end border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <h2 className="text-2xl font-bold text-onboarding-text-primary mb-2">
-            Generating Your Plan
+          <div className="w-10 h-10 border-2 border-cinnabar border-t-transparent animate-spin mx-auto mb-6"></div>
+          <div className="font-mono uppercase tracking-[0.2em] text-[11px] text-onboarding-text-muted mb-2">
+            Generating
+          </div>
+          <h2 className="font-display uppercase tracking-[0.02em] text-2xl text-onboarding-text-primary mb-2">
+            Drafting your plan
           </h2>
-          <p className="text-onboarding-text-muted">
-            Our AI coaching team is creating your personalized training plan...
+          <p className="font-serif text-onboarding-text-muted text-base max-w-md">
+            Six coaches are at the chalkboard.
           </p>
         </div>
       </div>
@@ -132,17 +98,20 @@ export default function PlanPage() {
 
   if (error || !profile || !plan) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-onboarding-bg-primary via-onboarding-bg-secondary to-onboarding-bg-primary flex items-center justify-center">
-        <div className="text-center max-w-md">
-          <h2 className="text-2xl font-bold text-onboarding-text-primary mb-4">
-            Oops! Something went wrong
+      <div className="min-h-screen bg-onboarding-bg-primary flex items-center justify-center px-6">
+        <div className="max-w-md text-center">
+          <div className="font-mono uppercase tracking-[0.2em] text-[11px] text-cinnabar mb-3">
+            ● Error
+          </div>
+          <h2 className="font-display uppercase tracking-[0.02em] text-3xl text-onboarding-text-primary mb-4">
+            Something stalled.
           </h2>
-          <p className="text-onboarding-text-muted mb-6">
+          <p className="font-serif text-onboarding-text-muted mb-8 leading-snug">
             {error || "Unable to load your training plan."}
           </p>
           <Link href="/onboarding">
-            <button className="bg-gradient-to-r from-onboarding-accent-start to-onboarding-accent-end hover:from-onboarding-accent-start/80 hover:to-onboarding-accent-end/80 text-onboarding-bg-primary px-4 py-2 rounded-md font-medium">
-              Start Over
+            <button className="bg-cinnabar text-onboarding-bg-primary font-mono uppercase tracking-[0.18em] text-xs px-6 py-3.5 hover:opacity-90 transition-opacity">
+              Start over
             </button>
           </Link>
         </div>
@@ -150,546 +119,92 @@ export default function PlanPage() {
     )
   }
 
+  const meta = [
+    { label: "Belt", value: profile.beltRank },
+    { label: "Body", value: profile.bodyType || "—" },
+    { label: "Cadence", value: `${profile.trainingFrequency}×/wk` },
+    { label: "Goal", value: profile.primaryGoal?.replace("-", " ") || "—" },
+    { label: "Window", value: profile.timeframe || "—" },
+  ]
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-onboarding-bg-primary via-onboarding-bg-secondary to-onboarding-bg-primary">
+    <div className="min-h-screen bg-onboarding-bg-primary">
       <BetaNoticeModal isOpen={showBetaNotice} onClose={closeBetaNotice} />
-      <div className="max-w-3xl mx-auto px-4 py-8">
-        {/* Profile Summary */}
-        <Card className="bg-onboarding-card-bg border-onboarding-border-subtle backdrop-blur-sm mb-8 shadow-2xl">
-          <CardHeader className="pb-4">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-              <div className="space-y-3">
-                <CardTitle className="text-3xl lg:text-4xl font-bold text-onboarding-text-primary leading-tight">
-                  Your Personalized BJJ Development Plan
-                </CardTitle>
-                <CardDescription className="text-base text-onboarding-text-muted font-medium">
-                  Generated for {profile.beltRank} belt • {profile.bodyType} • {profile.trainingFrequency} training
-                </CardDescription>
-              </div>
-              <div className="flex flex-col gap-3">
-                <div className="flex flex-wrap items-center gap-3">
-                  <Badge className="bg-onboarding-accent-end/20 text-onboarding-accent-end border border-onboarding-accent-end/30 px-4 py-2 rounded-full text-sm font-semibold flex items-center shadow-sm">
-                    <Target className="h-4 w-4 mr-2" />
-                    {profile.primaryGoal.replace("-", " ")}
-                  </Badge>
-                  <Badge className="bg-blue-500/20 text-blue-300 border border-blue-500/30 px-4 py-2 rounded-full text-sm font-semibold flex items-center shadow-sm">
-                    <Clock className="h-4 w-4 mr-2" />
-                    {profile.timeframe}
-                  </Badge>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={handleRegeneratePlan}
-                    className="border border-onboarding-border-input text-onboarding-text-primary hover:bg-onboarding-hover-bg bg-transparent px-3 py-1.5 rounded-md font-medium text-sm flex items-center transition-colors"
-                  >
-                    <RefreshCw className="h-3 w-3 mr-1.5" />
-                    Regenerate
-                  </button>
-                  <button className="border border-onboarding-border-input text-onboarding-text-primary hover:bg-onboarding-hover-bg bg-transparent px-3 py-1.5 rounded-md font-medium text-sm flex items-center transition-colors">
-                    <Share2 className="h-3 w-3 mr-1.5" />
-                    Share
-                  </button>
-                  <button className="bg-gradient-to-r from-onboarding-accent-start to-onboarding-accent-end hover:from-onboarding-accent-start/80 hover:to-onboarding-accent-end/80 text-onboarding-bg-primary px-3 py-1.5 rounded-md font-medium text-sm flex items-center transition-colors">
-                    <Download className="h-3 w-3 mr-1.5" />
-                    Download
-                  </button>
-                </div>
-              </div>
+
+      <div className="max-w-3xl mx-auto px-6 py-12">
+        <div className="mb-10">
+          <div className="font-mono uppercase tracking-[0.2em] text-[11px] text-onboarding-text-muted mb-4">
+            <span className="text-cinnabar">●</span> Plan / Generated
+          </div>
+          <h1 className="font-display uppercase tracking-[0.02em] text-4xl md:text-5xl leading-tight text-onboarding-text-primary mb-2">
+            Your blueprint.
+          </h1>
+          <p className="font-serif text-lg text-onboarding-text-muted leading-snug max-w-xl">
+            Drills, mindset, and recovery written for you.
+          </p>
+        </div>
+
+        <dl className="grid grid-cols-2 md:grid-cols-5 gap-px bg-onboarding-border-subtle border border-onboarding-border-subtle mb-10">
+          {meta.map(({ label, value }) => (
+            <div key={label} className="bg-onboarding-bg-primary p-4">
+              <dt className="font-mono uppercase tracking-[0.15em] text-[10px] text-onboarding-text-muted mb-1.5">
+                {label}
+              </dt>
+              <dd className="font-mono text-sm text-onboarding-text-primary capitalize">
+                {value}
+              </dd>
             </div>
-          </CardHeader>
-          <CardContent className="pt-2">
-            <div className="bg-gradient-to-r from-onboarding-accent-end/10 to-onboarding-accent-start/10 rounded-xl p-6 border border-onboarding-accent-end/20 shadow-sm">
-              <h3 className="text-lg font-bold text-onboarding-text-primary mb-4 flex items-center">
-                <Zap className="h-5 w-5 mr-3 text-yellow-400" />
-                Plan Summary
-              </h3>
-              <p className="text-onboarding-text-muted leading-relaxed text-base">
-                {plan.summary}
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+          ))}
+        </dl>
 
-        {/* TODO: RESTORE LATER - 6-Tab coaching system 
-        {/* Coaching Tabs */}
-        {/*
-        <Tabs defaultValue="technical" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6 gap-1 p-1 bg-onboarding-card-bg border border-onboarding-border-subtle rounded-lg h-auto">
-            <TabsTrigger 
-              value="technical" 
-              className="flex items-center justify-center gap-2 py-2.5 px-2 rounded-md font-medium transition-all duration-200 data-[state=active]:bg-onboarding-accent-end/20 data-[state=active]:text-onboarding-accent-end hover:bg-onboarding-hover-bg text-xs lg:text-sm text-onboarding-text-primary"
-            >
-              <User className="h-4 w-4" />
-              <span className="hidden sm:inline">Technical</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="mental" 
-              className="flex items-center justify-center gap-2 py-2.5 px-2 rounded-md font-medium transition-all duration-200 data-[state=active]:bg-onboarding-accent-end/20 data-[state=active]:text-onboarding-accent-end hover:bg-onboarding-hover-bg text-xs lg:text-sm text-onboarding-text-primary"
-            >
-              <Brain className="h-4 w-4" />
-              <span className="hidden sm:inline">Mental</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="recovery" 
-              className="flex items-center justify-center gap-2 py-2.5 px-2 rounded-md font-medium transition-all duration-200 data-[state=active]:bg-onboarding-accent-end/20 data-[state=active]:text-onboarding-accent-end hover:bg-onboarding-hover-bg text-xs lg:text-sm text-onboarding-text-primary"
-            >
-              <Heart className="h-4 w-4" />
-              <span className="hidden sm:inline">Recovery</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="strength" 
-              className="flex items-center justify-center gap-2 py-2.5 px-2 rounded-md font-medium transition-all duration-200 data-[state=active]:bg-onboarding-accent-end/20 data-[state=active]:text-onboarding-accent-end hover:bg-onboarding-hover-bg text-xs lg:text-sm text-onboarding-text-primary"
-            >
-              <Dumbbell className="h-4 w-4" />
-              <span className="hidden sm:inline">Strength</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="competition" 
-              className="flex items-center justify-center gap-2 py-2.5 px-2 rounded-md font-medium transition-all duration-200 data-[state=active]:bg-onboarding-accent-end/20 data-[state=active]:text-onboarding-accent-end hover:bg-onboarding-hover-bg text-xs lg:text-sm text-onboarding-text-primary"
-            >
-              <Trophy className="h-4 w-4" />
-              <span className="hidden sm:inline">Competition</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="support" 
-              className="flex items-center justify-center gap-2 py-2.5 px-2 rounded-md font-medium transition-all duration-200 data-[state=active]:bg-onboarding-accent-end/20 data-[state=active]:text-onboarding-accent-end hover:bg-onboarding-hover-bg text-xs lg:text-sm text-onboarding-text-primary"
-            >
-              <Users className="h-4 w-4" />
-              <span className="hidden sm:inline">Support</span>
-            </TabsTrigger>
-          </TabsList>
-        */}
+        <div className="flex flex-wrap items-center gap-3 mb-10">
+          <button
+            onClick={handleRegeneratePlan}
+            className="inline-flex items-center gap-2 border border-onboarding-border-input text-onboarding-text-primary font-mono uppercase tracking-[0.18em] text-[11px] px-4 py-2.5 hover:bg-onboarding-hover-bg transition-colors"
+          >
+            <RefreshCw className="h-3 w-3" />
+            Regenerate
+          </button>
+          <button className="inline-flex items-center gap-2 border border-onboarding-border-input text-onboarding-text-primary font-mono uppercase tracking-[0.18em] text-[11px] px-4 py-2.5 hover:bg-onboarding-hover-bg transition-colors">
+            <Share2 className="h-3 w-3" />
+            Share
+          </button>
+          <button className="inline-flex items-center gap-2 bg-cinnabar text-onboarding-bg-primary font-mono uppercase tracking-[0.18em] text-[11px] px-4 py-2.5 hover:opacity-90 transition-opacity">
+            <Download className="h-3 w-3" />
+            Download
+          </button>
+        </div>
 
-          {/*
-          <TabsContent value="technical">
-            <Card className="bg-onboarding-card-bg border-onboarding-border-subtle backdrop-blur-sm">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg font-semibold text-onboarding-text-primary flex items-center">
-                  <User className="h-5 w-5 mr-2 text-blue-400" />
-                  Technical Coach
-                </CardTitle>
-                <CardDescription className="text-sm text-onboarding-text-muted">
-                  Personalized drills, techniques, and rolling strategies
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <h3 className="text-onboarding-text-primary font-medium mb-3 flex items-center">
-                    🎯 Recommended Drills
-                  </h3>
-                  <ul className="space-y-2">
-                    {plan.technicalCoach.drills.map((drill, index) => (
-                      <li
-                        key={index}
-                        className="text-onboarding-text-muted flex items-start"
-                      >
-                        <span className="text-blue-400 mr-3 flex-shrink-0">•</span>
-                        <span className="text-sm">{drill}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+        <section className="border border-onboarding-border-subtle bg-onboarding-bg-secondary p-8 mb-10">
+          <div className="font-mono uppercase tracking-[0.2em] text-[11px] text-onboarding-text-muted mb-3">
+            §A / Summary
+          </div>
+          <p className="font-serif text-lg text-onboarding-text-primary leading-snug">
+            {plan.summary}
+          </p>
+        </section>
 
-                <div>
-                  <h3 className="text-onboarding-text-primary font-medium mb-3 flex items-center">
-                    🥋 Technique Focus
-                  </h3>
-                  <ul className="space-y-2">
-                    {plan.technicalCoach.techniques.map((technique, index) => (
-                      <li
-                        key={index}
-                        className="text-onboarding-text-muted flex items-start"
-                      >
-                        <span className="text-blue-400 mr-3 flex-shrink-0">•</span>
-                        <span className="text-sm">{technique}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+        <section className="border-t border-onboarding-border-subtle pt-10">
+          <div className="font-mono uppercase tracking-[0.2em] text-[11px] text-onboarding-text-muted mb-3">
+            §B / Voices · Technical · Mental · Recovery · Strength · Competition · Support
+          </div>
+          <h2 className="font-display uppercase tracking-[0.03em] text-2xl text-onboarding-text-primary mb-6">
+            Your six coaches.
+          </h2>
+          <pre className="whitespace-pre-wrap font-serif text-base text-onboarding-text-primary leading-relaxed">
+            {plan.response}
+          </pre>
+        </section>
 
-                <div>
-                  <h3 className="text-onboarding-text-primary font-medium mb-3 flex items-center">
-                    🤼 Rolling Focus
-                  </h3>
-                  <ul className="space-y-2">
-                    {plan.technicalCoach.rollingFocus.map((focus, index) => (
-                      <li
-                        key={index}
-                        className="text-onboarding-text-muted flex items-start"
-                      >
-                        <span className="text-blue-400 mr-3 flex-shrink-0">•</span>
-                        <span className="text-sm">{focus}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          */}
-
-          {/*
-          <TabsContent value="mental">
-            <Card className="bg-onboarding-card-bg border-onboarding-border-subtle backdrop-blur-sm">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg font-semibold text-onboarding-text-primary flex items-center">
-                  <Brain className="h-5 w-5 mr-2 text-onboarding-accent-start" />
-                  Mental Coach
-                </CardTitle>
-                <CardDescription className="text-sm text-onboarding-text-muted">
-                  Competition prep, mindfulness techniques, and mental triggers
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <h3 className="text-onboarding-text-primary font-medium mb-3 flex items-center">
-                    🧠 Mindset Shifts
-                  </h3>
-                  <ul className="space-y-2">
-                    {plan.mentalCoach.mindsetShifts.map((shift, index) => (
-                      <li
-                        key={index}
-                        className="text-onboarding-text-muted flex items-start"
-                      >
-                        <span className="text-onboarding-accent-start mr-3 flex-shrink-0">•</span>
-                        <span className="text-sm">{shift}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="text-onboarding-text-primary font-medium mb-3 flex items-center">
-                    🏆 Competition Preparation
-                  </h3>
-                  <ul className="space-y-2">
-                    {plan.mentalCoach.competitionPrep.map((prep, index) => (
-                      <li
-                        key={index}
-                        className="text-onboarding-text-muted flex items-start"
-                      >
-                        <span className="text-onboarding-accent-start mr-3 flex-shrink-0">•</span>
-                        <span className="text-sm">{prep}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="text-onboarding-text-primary font-medium mb-3 flex items-center">
-                    🛠️ Mental Tools
-                  </h3>
-                  <ul className="space-y-2">
-                    {plan.mentalCoach.mentalTools.map((tool, index) => (
-                      <li
-                        key={index}
-                        className="text-onboarding-text-muted flex items-start"
-                      >
-                        <span className="text-onboarding-accent-start mr-3 flex-shrink-0">•</span>
-                        <span className="text-sm">{tool}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="recovery">
-            <Card className="bg-onboarding-card-bg border-onboarding-border-subtle backdrop-blur-sm">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg font-semibold text-onboarding-text-primary flex items-center">
-                  <Heart className="h-5 w-5 mr-2 text-orange-400" />
-                  Recovery Specialist
-                </CardTitle>
-                <CardDescription className="text-sm text-onboarding-text-muted">
-                  Injury prevention, mobility work, and recovery protocols
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <h3 className="text-onboarding-text-primary font-medium mb-3 flex items-center">
-                    🤸 Mobility & Flexibility
-                  </h3>
-                  <ul className="space-y-2">
-                    {plan.recoverySpecialist.mobility.map((item, index) => (
-                      <li
-                        key={index}
-                        className="text-onboarding-text-muted flex items-start"
-                      >
-                        <span className="text-orange-400 mr-3 flex-shrink-0">•</span>
-                        <span className="text-sm">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="text-onboarding-text-primary font-medium mb-3 flex items-center">
-                    💤 Recovery Protocols
-                  </h3>
-                  <ul className="space-y-2">
-                    {plan.recoverySpecialist.recovery.map((protocol, index) => (
-                      <li
-                        key={index}
-                        className="text-onboarding-text-muted flex items-start"
-                      >
-                        <span className="text-orange-400 mr-3 flex-shrink-0">•</span>
-                        <span className="text-sm">{protocol}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="text-onboarding-text-primary font-medium mb-3 flex items-center">
-                    🛡️ Injury Prevention
-                  </h3>
-                  <ul className="space-y-2">
-                    {plan.recoverySpecialist.injuryPrevention.map((prevention, index) => (
-                      <li
-                        key={index}
-                        className="text-onboarding-text-muted flex items-start"
-                      >
-                        <span className="text-orange-400 mr-3 flex-shrink-0">•</span>
-                        <span className="text-sm">{prevention}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="strength">
-            <Card className="bg-onboarding-card-bg border-onboarding-border-subtle backdrop-blur-sm">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg font-semibold text-onboarding-text-primary flex items-center">
-                  <Dumbbell className="h-5 w-5 mr-2 text-purple-400" />
-                  Strength Coach
-                </CardTitle>
-                <CardDescription className="text-sm text-onboarding-text-muted">
-                  Off-mat conditioning, strength training, and energy system development
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <h3 className="text-onboarding-text-primary font-medium mb-3 flex items-center">
-                    🏃 Conditioning
-                  </h3>
-                  <ul className="space-y-2">
-                    {plan.strengthCoach.conditioning.map((item, index) => (
-                      <li
-                        key={index}
-                        className="text-onboarding-text-muted flex items-start"
-                      >
-                        <span className="text-purple-400 mr-3 flex-shrink-0">•</span>
-                        <span className="text-sm">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="text-onboarding-text-primary font-medium mb-3 flex items-center">
-                    💪 Strength Training
-                  </h3>
-                  <ul className="space-y-2">
-                    {plan.strengthCoach.strengthTraining.map((training, index) => (
-                      <li
-                        key={index}
-                        className="text-onboarding-text-muted flex items-start"
-                      >
-                        <span className="text-purple-400 mr-3 flex-shrink-0">•</span>
-                        <span className="text-sm">{training}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="text-onboarding-text-primary font-medium mb-3 flex items-center">
-                    ⚡ Energy Systems
-                  </h3>
-                  <ul className="space-y-2">
-                    {plan.strengthCoach.energySystems.map((system, index) => (
-                      <li
-                        key={index}
-                        className="text-onboarding-text-muted flex items-start"
-                      >
-                        <span className="text-purple-400 mr-3 flex-shrink-0">•</span>
-                        <span className="text-sm">{system}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="competition">
-            <Card className="bg-onboarding-card-bg border-onboarding-border-subtle backdrop-blur-sm">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg font-semibold text-onboarding-text-primary flex items-center">
-                  <Trophy className="h-5 w-5 mr-2 text-yellow-400" />
-                  Competition Strategist
-                </CardTitle>
-                <CardDescription className="text-sm text-onboarding-text-muted">
-                  Game planning, match analysis, and competition-specific preparation
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <h3 className="text-onboarding-text-primary font-medium mb-3 flex items-center">
-                    📋 Game Plan
-                  </h3>
-                  <ul className="space-y-2">
-                    {plan.competitionStrategist.gameplan.map((item, index) => (
-                      <li
-                        key={index}
-                        className="text-onboarding-text-muted flex items-start"
-                      >
-                        <span className="text-yellow-400 mr-3 flex-shrink-0">•</span>
-                        <span className="text-sm">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="text-onboarding-text-primary font-medium mb-3 flex items-center">
-                    📊 Match Analysis
-                  </h3>
-                  <ul className="space-y-2">
-                    {plan.competitionStrategist.matchAnalysis.map((analysis, index) => (
-                      <li
-                        key={index}
-                        className="text-onboarding-text-muted flex items-start"
-                      >
-                        <span className="text-yellow-400 mr-3 flex-shrink-0">•</span>
-                        <span className="text-sm">{analysis}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="text-onboarding-text-primary font-medium mb-3 flex items-center">
-                    🎯 Preparation
-                  </h3>
-                  <ul className="space-y-2">
-                    {plan.competitionStrategist.preparation.map((prep, index) => (
-                      <li
-                        key={index}
-                        className="text-onboarding-text-muted flex items-start"
-                      >
-                        <span className="text-yellow-400 mr-3 flex-shrink-0">•</span>
-                        <span className="text-sm">{prep}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="support">
-            <Card className="bg-onboarding-card-bg border-onboarding-border-subtle backdrop-blur-sm">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg font-semibold text-onboarding-text-primary flex items-center">
-                  <Users className="h-5 w-5 mr-2 text-teal-400" />
-                  Supportive Friend
-                </CardTitle>
-                <CardDescription className="text-sm text-onboarding-text-muted">
-                  Positive reinforcement, motivation, and honest feedback
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <h3 className="text-onboarding-text-primary font-medium mb-3 flex items-center">
-                    🔥 Motivation
-                  </h3>
-                  <ul className="space-y-2">
-                    {plan.supportiveFriend.motivation.map((item, index) => (
-                      <li
-                        key={index}
-                        className="text-onboarding-text-muted flex items-start"
-                      >
-                        <span className="text-teal-400 mr-3 flex-shrink-0">•</span>
-                        <span className="text-sm">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="text-onboarding-text-primary font-medium mb-3 flex items-center">
-                    📝 Accountability
-                  </h3>
-                  <ul className="space-y-2">
-                    {plan.supportiveFriend.accountability.map((item, index) => (
-                      <li
-                        key={index}
-                        className="text-onboarding-text-muted flex items-start"
-                      >
-                        <span className="text-teal-400 mr-3 flex-shrink-0">•</span>
-                        <span className="text-sm">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="text-onboarding-text-primary font-medium mb-3 flex items-center">
-                    💪 Encouragement
-                  </h3>
-                  <ul className="space-y-2">
-                    {plan.supportiveFriend.encouragement.map((item, index) => (
-                      <li
-                        key={index}
-                        className="text-onboarding-text-muted flex items-start"
-                      >
-                        <span className="text-teal-400 mr-3 flex-shrink-0">•</span>
-                        <span className="text-sm">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-        */}
-
-        {/* Simple response display for prompt testing */}
-        <Card className="bg-onboarding-card-bg border-onboarding-border-subtle backdrop-blur-sm">
-          <CardHeader className="pb-4">
-            <CardTitle className="text-xl font-semibold text-onboarding-text-primary">
-              Your Personalized Training Plan
-            </CardTitle>
-            <CardDescription className="text-onboarding-text-muted">
-              AI-generated guidance covering: Technical • Mental • Recovery • Strength • Competition • Support
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="bg-onboarding-bg-secondary/50 rounded-lg p-6">
-              <pre className="whitespace-pre-wrap text-onboarding-text-muted font-sans text-sm leading-relaxed">
-                {plan.response}
-              </pre>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-6 justify-center mt-12">
+        <div className="flex flex-col sm:flex-row gap-3 mt-14 pt-10 border-t border-onboarding-border-subtle">
           <Link href="/onboarding">
-            <button className="border-2 border-onboarding-border-input text-onboarding-text-primary hover:bg-onboarding-hover-bg bg-transparent px-8 py-4 rounded-xl font-semibold text-base transition-all duration-200 hover:scale-105 shadow-lg">
-              Create New Plan
+            <button className="inline-flex items-center gap-2 border border-onboarding-border-input text-onboarding-text-primary font-mono uppercase tracking-[0.18em] text-[11px] px-6 py-3.5 hover:bg-onboarding-hover-bg transition-colors">
+              <ArrowLeft className="h-3 w-3" />
+              Create new plan
             </button>
           </Link>
-          <button className="bg-gradient-to-r from-onboarding-accent-start to-onboarding-accent-end hover:from-onboarding-accent-start/80 hover:to-onboarding-accent-end/80 text-onboarding-bg-primary px-8 py-4 rounded-xl font-semibold text-base transition-all duration-200 hover:scale-105 shadow-xl">
-            Save to My Plans
+          <button className="inline-flex items-center gap-2 bg-cinnabar text-onboarding-bg-primary font-mono uppercase tracking-[0.18em] text-[11px] px-6 py-3.5 hover:opacity-90 transition-opacity">
+            Save to my plans
           </button>
         </div>
       </div>
