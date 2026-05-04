@@ -57,3 +57,8 @@ next-env.d.ts
 
 # cypress screenshots
 /cypress/screenshots
+
+# local notes and design handoff
+SESSION.md
+FONT_LOADING_ISSUE.md
+MatMind-handoff/
